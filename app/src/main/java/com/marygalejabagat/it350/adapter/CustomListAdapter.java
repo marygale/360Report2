@@ -22,7 +22,7 @@ public class CustomListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
     private List<User> userItems;
-    /*ImageLoader imageLoader = AppController.getInstance().getImageLoader();*/
+    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     public CustomListAdapter(Activity activity, List<User> userItems) {
         this.activity = activity;
@@ -53,11 +53,11 @@ public class CustomListAdapter extends BaseAdapter {
         if (convertView == null)
             convertView = inflater.inflate(R.layout.user_list, null);
 
-       /* if (imageLoader == null)
-            imageLoader = AppController.getInstance().getImageLoader();*/
+        if (imageLoader == null)
+            imageLoader = AppController.getInstance().getImageLoader();
 
-       /* NetworkImageView thumbNail = (NetworkImageView) convertView
-                .findViewById(R.id.thumbnail);*/
+        NetworkImageView thumbNail = (NetworkImageView) convertView
+                .findViewById(R.id.thumbnail);
         TextView title = (TextView) convertView.findViewById(R.id.title);
         TextView rating = (TextView) convertView.findViewById(R.id.rating);
        /* TextView genre = (TextView) convertView.findViewById(R.id.genre);
@@ -73,7 +73,7 @@ public class CustomListAdapter extends BaseAdapter {
         title.setText(m.getFirstName() + m.getLastName());
 
         // rating
-        rating.setText("Email: " + String.valueOf(m.getEmail()));
+        rating.setText("Email: " + m.getEmail());
 
 
         return convertView;

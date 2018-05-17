@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/list_row_selector"
-    android:padding="8dp" >
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:background="@drawable/list_selector"
+    android:orientation="horizontal"
+    android:layout_alignEnd="@+id/toolbar"
+    android:layout_alignTop="@+id/toolbar"
+    android:layout_alignRight="@+id/toolbar"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="50dp"
+    android:padding="5dp">
 
     <!-- Thumbnail Image -->
     <com.android.volley.toolbox.NetworkImageView
@@ -20,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
+        android:text="SAMPLE"
         android:textSize="@dimen/title"
         android:textStyle="bold" />
 

@@ -1,5 +1,10 @@
 package com.marygalejabagat.it350;
 
+import com.marygalejabagat.it350.adapter.CustomListAdapter;
+import com.marygalejabagat.it350.app.AppController;
+import com.marygalejabagat.it350.model.User;
+
+/*import android.app.ProgressDialog;*/
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -10,22 +15,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/*import android.app.ProgressDialog;*/
+import android.app.Activity;
+
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 
-import com.marygalejabagat.it350.adapter.CustomListAdapter;
-import com.marygalejabagat.it350.app.AppController;
-import com.marygalejabagat.it350.model.User;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -46,54 +49,61 @@ public class LoginActivity extends AppCompatActivity {
         adapter = new CustomListAdapter(this, userList);
         listView.setAdapter(adapter);
         Log.e(TAG, "LOGS here");
-        /*Show progrress bar*/
-       /* pDialog = new ProgressDialog(this);
+
+      /*  pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.show();*/
 
         /*getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#1b1b1b")));*/
 
         /*Create volley request obj*/
-        JsonArrayRequest userReq = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                Log.e(TAG, "response here");
-                Log.e(TAG, response.toString());
-                hidePDialog();
+        JsonArrayRequest userReq = new JsonArrayRequest(url,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.e(TAG, response.toString());
+                        hidePDialog();
 
-                /*Parse JSON respose*/
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject obj = response.getJSONObject(i);
-                        User user = new User();
-                        user.setFirstName(obj.getString("first_name"));
-                        user.setLastName(obj.getString("last_name"));
-                        user.setEmail(obj.getString("email_address"));
-                        user.setRoleID(obj.getInt("role_id"));
-                        user.setUserID(obj.getInt("user_id"));
-                        userList.add(user);
+                        // Parsing json
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                                JSONObject obj = response.getJSONObject(i);
+                                User user = new User();
+                                user.setFirstName(obj.getString("first_name"));
+                                user.setLastName(obj.getString("last_name"));
+                                user.setEmail(obj.getString("email_address"));
+                                user.setRoleID(obj.getInt("role_id"));
+                                user.setUserID(obj.getInt("user_id"));
+                                userList.add(user);
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        // notifying list adapter about data changes
+                        // so that it renders the list view with updated data
+                        adapter.notifyDataSetChanged();
                     }
-                }
-                /*notify list adapter for changes*/
-                adapter.notifyDataSetChanged();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.e(TAG, "Error: "+error.getMessage());
-                hidePDialog();
-            }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                        hidePDialog();
+
+                    }
         });
 
-
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(userReq);
 
     }
 
     private void hidePDialog(){
-        /*if(pDialog != null){
+       /* if(pDialog != null){
             pDialog.dismiss();
             pDialog = null;
         }*/
@@ -103,4 +113,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onDestroy();
         hidePDialog();
     }
+
+
 }
