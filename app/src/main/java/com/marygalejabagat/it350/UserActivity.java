@@ -1,6 +1,8 @@
 package com.marygalejabagat.it350;
 
 import android.os.Handler;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -20,6 +22,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -45,6 +48,10 @@ public class UserActivity extends AppCompatActivity {
     private int progressStatus = 0;
     private Handler handler = new Handler();
 
+    private DrawerLayout mDrawer;
+    private Toolbar toolbar;
+    private NavigationView nvDrawer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +61,9 @@ public class UserActivity extends AppCompatActivity {
         adapter = new CustomListAdapter(this, userList);
         listView.setAdapter(adapter);
         Log.e(TAG, "LOGS here");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         /*Create volley request obj*/
         JsonArrayRequest userReq = new JsonArrayRequest(url,
