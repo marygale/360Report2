@@ -12,12 +12,24 @@
     android:padding="5dp">
 
     <!-- Thumbnail Image -->
-    <com.android.volley.toolbox.NetworkImageView
+
+    <LinearLayout
         android:id="@+id/thumbnail"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginRight="8dp" />
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/image_bg"
+        android:padding="10dip">
+
+        <ImageView
+            android:id="@+id/list_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/avatar" />
+
+    </LinearLayout>
 
     <!-- Movie Title -->
     <TextView
@@ -27,6 +39,7 @@
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
         android:text="SAMPLE"
+        android:textColor="@color/jet"
         android:textSize="@dimen/title"
         android:textStyle="bold" />
 
@@ -38,6 +51,7 @@
         android:layout_below="@id/title"
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/thumbnail"
+        android:textColor="@color/oil"
         android:textSize="@dimen/rating" />
 
     <!-- Genre -->

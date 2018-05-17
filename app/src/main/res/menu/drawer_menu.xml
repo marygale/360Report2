@@ -7,6 +7,7 @@
         <item
             android:id="@+id/builder"
             android:icon="@drawable/builder"
+            android:checked="true"
             android:title="Survey Builder" />
         <item
             android:id="@+id/nav_gallery"
@@ -19,7 +20,10 @@
             android:title="Tools" />
     </group>
 
-    <item android:title="Communicate">
+    <item
+        android:id="@+id/user_menu"
+        android:icon="@drawable/user"
+        android:title="User List">
         <menu>
             <item
                 android:id="@+id/nav_share"
@@ -31,3 +35,5 @@
     </item>
 
 </menu>
+
+
