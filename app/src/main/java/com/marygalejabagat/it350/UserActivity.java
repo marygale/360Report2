@@ -54,7 +54,6 @@ public class UserActivity extends AppCompatActivity {
         adapter = new CustomListAdapter(this, userList);
         listView.setAdapter(adapter);
         Log.e(TAG, "LOGS here");
-        showProgress();
 
         /*Create volley request obj*/
         JsonArrayRequest userReq = new JsonArrayRequest(url,
@@ -62,7 +61,7 @@ public class UserActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.e(TAG, response.toString());
-                        showProgress();
+                        /*showProgress();*/
 
                         // Parsing json
                         for (int i = 0; i < response.length(); i++) {
@@ -90,7 +89,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                showProgress();
+              /*  showProgress();*/
 
             }
         });
@@ -99,7 +98,7 @@ public class UserActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(userReq);
     }
 
-    public void showProgress(){
+    /*public void showProgress(){
         txtProgress = (TextView) findViewById(R.id.txtProgress);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -140,5 +139,5 @@ public class UserActivity extends AppCompatActivity {
             }
         }).start();
 
-    }
+    }*/
 }

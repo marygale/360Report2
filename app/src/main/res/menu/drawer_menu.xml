@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    android:theme="@style/AppTheme.Dark">
 
     <group android:checkableBehavior="single">
         <item
@@ -10,7 +9,7 @@
             android:checked="true"
             android:title="Survey Builder" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_component"
             android:title="Survey Components" />
         <item
             android:id="@+id/nav_slideshow"
@@ -35,5 +34,4 @@
     </item>
 
 </menu>
-
 

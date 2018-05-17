@@ -2,6 +2,7 @@ package com.marygalejabagat.it350;
 
 /*import android.app.Fragment;*/
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import android.support.v4.app.Fragment;
@@ -36,31 +38,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Set a Toolbar to replace the ActionBar.
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        nvDrawer = (NavigationView) findViewById(R.id.nav_view);
+        // Find our drawer view
+
+        nvDrawer = (NavigationView) findViewById(R.id.nvView);
+        // Setup drawer view
         setupDrawerContent(nvDrawer);
 
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nvView);
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.imageView);
 
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);*/
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerToggle = setupDrawerToggle();
+        mDrawer.addDrawerListener(drawerToggle);
 
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
@@ -78,12 +72,23 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+
+
     public void selectDrawerItem(MenuItem menuItem) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass;
         switch(menuItem.getItemId()) {
+            case R.id.builder:
+                fragmentClass = UserFragment.class;
+                Toast.makeText(getApplicationContext(), "Builder ",   Toast.LENGTH_LONG).show();
+                break;
+            case R.id.nav_component:
+                Intent usericon=new Intent(this,UserActivity.class);
+                startActivity(usericon);
+                finish();
             case R.id.user_menu:
+                Toast.makeText(getApplicationContext(), "User List ",   Toast.LENGTH_LONG).show();
                 fragmentClass = UserFragment.class;
                 break;
             default:
@@ -137,8 +142,28 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
 
+       /* if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }*/
         return super.onOptionsItemSelected(item);
+
     }
 
+    private ActionBarDrawerToggle setupDrawerToggle() {
+        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.navigation_drawer_open,  R.string.navigation_drawer_close);
+    }
 
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggles
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
 }
