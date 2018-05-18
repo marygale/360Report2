@@ -21,14 +21,30 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="80dp"
         android:paddingLeft="20dp"
-        android:text="User's List"
+        android:text="Survey List"
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textSize="24sp"
         android:textStyle="bold" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/txtWait"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:textSize="20dp"
+            android:text="List is empty"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="#4286f4"
+            android:layout_marginLeft="14dp"/>
+    </android.support.constraint.ConstraintLayout>
+
 
     <ListView
-        android:id="@+id/ListUser"
+        android:id="@+id/ListSurvey"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="120dp"

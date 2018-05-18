@@ -24,6 +24,7 @@ import android.support.v4.app.FragmentActivity;
 
 
 import com.marygalejabagat.it350.adapter.CustomListAdapter;
+import com.marygalejabagat.it350.fragment.SurveyFragment;
 import com.marygalejabagat.it350.fragment.UserFragment;
 import com.marygalejabagat.it350.model.User;
 
@@ -86,15 +87,16 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = null;
         Class fragmentClass;
         switch(menuItem.getItemId()) {
+            case R.id.survey_list:
+                fragmentClass = SurveyFragment.class;
+                Toast.makeText(getApplicationContext(), "Survey List ",   Toast.LENGTH_LONG).show();
+                break;
             case R.id.builder:
                 fragmentClass = UserFragment.class;
                 Toast.makeText(getApplicationContext(), "Builder ",   Toast.LENGTH_LONG).show();
                 break;
             case R.id.nav_component:
-                /*Intent usericon=new Intent(this,UserActivity.class);
-                startActivity(usericon);*/
                 fragmentClass = UserFragment.class;
-                /*finish();*/
                 break;
             case R.id.user_menu:
                 Toast.makeText(getApplicationContext(), "User List ",   Toast.LENGTH_LONG).show();
