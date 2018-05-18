@@ -14,23 +14,24 @@
             android:id="@+id/nav_slideshow"
             android:title="Subscribers" />
         <item
-            android:id="@+id/nav_manage"
-            android:title="Tools" />
+            android:id="@+id/user_menu"
+            android:title="User's List" />
     </group>
 
-    <item
-        android:id="@+id/user_menu"
-        android:icon="@drawable/user"
-        android:title="User List">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:title="Send" />
-        </menu>
-    </item>
-
+    <!--<group android:checkableBehavior="single">
+        <item
+            android:id="@+id/user_menu"
+            android:icon="@drawable/user"
+            android:title="User List">
+            <menu>
+                <item
+                    android:id="@+id/nav_share"
+                    android:title="Share" />
+                <item
+                    android:id="@+id/nav_send"
+                    android:title="Send" />
+            </menu>
+        </item>
+    </group>-->
 </menu>
 

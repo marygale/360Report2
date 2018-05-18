@@ -23,6 +23,7 @@ public class CustomListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<User> userItems;
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+    private String role;
 
     public CustomListAdapter(Activity activity, List<User> userItems) {
         this.activity = activity;
@@ -60,8 +61,8 @@ public class CustomListAdapter extends BaseAdapter {
                 .findViewById(R.id.thumbnail);*/
         TextView title = (TextView) convertView.findViewById(R.id.title);
         TextView rating = (TextView) convertView.findViewById(R.id.rating);
-       /* TextView genre = (TextView) convertView.findViewById(R.id.genre);
-        TextView year = (TextView) convertView.findViewById(R.id.releaseYear);*/
+        TextView genre = (TextView) convertView.findViewById(R.id.genre);
+        /*  TextView year = (TextView) convertView.findViewById(R.id.releaseYear);*/
 
         // getting user data for the row
         User m = userItems.get(position);
@@ -74,6 +75,10 @@ public class CustomListAdapter extends BaseAdapter {
 
         // rating
         rating.setText("Email: " + m.getEmail());
+        if(m.getRoleID() == 1) role = "admin";
+        if(m.getRoleID() == 2) role = "user";
+        if(m.getRoleID() == 3) role = "subscriber";
+        genre.setText("Role: "+role);
 
 
         return convertView;

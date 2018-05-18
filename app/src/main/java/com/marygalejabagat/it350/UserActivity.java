@@ -1,13 +1,18 @@
 package com.marygalejabagat.it350;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.marygalejabagat.it350.adapter.CustomListAdapter;
 import com.marygalejabagat.it350.app.AppController;
+import com.marygalejabagat.it350.fragment.UserFragment;
 import com.marygalejabagat.it350.model.User;
 
 import java.util.ArrayList;
@@ -25,10 +30,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -51,11 +59,31 @@ public class UserActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
+    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
+        // Set a Toolbar to replace the ActionBar.
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Find our drawer view
+
+        nvDrawer = (NavigationView) findViewById(R.id.nvView);
+        // Setup drawer view
+        setupDrawerContent(nvDrawer);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nvView);
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.imageView);
+
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerToggle = setupDrawerToggle();
+        mDrawer.addDrawerListener(drawerToggle);
+
 
         listView = (ListView) findViewById(R.id.ListUser);
         adapter = new CustomListAdapter(this, userList);
@@ -150,4 +178,58 @@ public class UserActivity extends AppCompatActivity {
         }).start();
 
     }*/
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
+    }
+
+    public void selectDrawerItem(MenuItem menuItem) {
+        // Create a new fragment and specify the fragment to show based on nav item clicked
+        Fragment fragment = null;
+        Class fragmentClass;
+        switch(menuItem.getItemId()) {
+            case R.id.builder:
+                fragmentClass = UserFragment.class;
+                Toast.makeText(getApplicationContext(), "Builder ",   Toast.LENGTH_LONG).show();
+                break;
+            case R.id.nav_component:
+                Intent usericon=new Intent(this,UserActivity.class);
+                startActivity(usericon);
+                finish();
+            case R.id.user_menu:
+                Toast.makeText(getApplicationContext(), "User List ",   Toast.LENGTH_LONG).show();
+                fragmentClass = UserFragment.class;
+                break;
+            default:
+                fragmentClass = UserFragment.class;
+        }
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+        mDrawer.closeDrawers();
+    }
+
+    private ActionBarDrawerToggle setupDrawerToggle() {
+        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.navigation_drawer_open,  R.string.navigation_drawer_close);
+    }
 }

@@ -21,12 +21,13 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/image_bg"
-        android:padding="10dip">
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/list_image"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="5dp"
             android:src="@drawable/avatar" />
 
     </LinearLayout>

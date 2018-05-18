@@ -20,15 +20,22 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
 
-
+import com.marygalejabagat.it350.adapter.CustomListAdapter;
 import com.marygalejabagat.it350.fragment.UserFragment;
+import com.marygalejabagat.it350.model.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
+    public List<User> userList = new ArrayList<User>();
+    public CustomListAdapter adapter = new CustomListAdapter(this, userList);
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -84,9 +91,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Builder ",   Toast.LENGTH_LONG).show();
                 break;
             case R.id.nav_component:
-                Intent usericon=new Intent(this,UserActivity.class);
-                startActivity(usericon);
-                finish();
+                /*Intent usericon=new Intent(this,UserActivity.class);
+                startActivity(usericon);*/
+                fragmentClass = UserFragment.class;
+                /*finish();*/
+                break;
             case R.id.user_menu:
                 Toast.makeText(getApplicationContext(), "User List ",   Toast.LENGTH_LONG).show();
                 fragmentClass = UserFragment.class;
