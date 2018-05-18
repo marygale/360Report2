@@ -58,8 +58,9 @@ public class SurveyListAdapter extends BaseAdapter {
 
         TextView name = (TextView) convertView.findViewById(R.id.survey_name);
         TextView desc = (TextView) convertView.findViewById(R.id.survey_description);
+        TextView created = (TextView) convertView.findViewById(R.id.created);
         /*TextView genre = (TextView) convertView.findViewById(R.id.genre);
-        TextView year = (TextView) convertView.findViewById(R.id.releaseYear);*/
+        */
 
         // getting user data for the row
         Surveys m = surveyItems.get(position);
@@ -69,6 +70,7 @@ public class SurveyListAdapter extends BaseAdapter {
 
         // name
         name.setText(m.getName());
+        created.setText(m.getCreated());
 
         // description
         if(desc.length() > 0){

@@ -83,10 +83,7 @@ public class SurveyFragment extends Fragment {
                                     Surveys survey = new Surveys();
                                     survey.setName(obj.getString("name"));
                                     survey.setDescription(obj.getString("description"));
-                                /*String dateStr = obj.getString("created");
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                                Date created = sdf.parse(dateStr);
-                                survey.setCreated(created);*/
+                                    survey.setCreated(obj.getString("created"));
                                     survey_list.add(survey);
 
 

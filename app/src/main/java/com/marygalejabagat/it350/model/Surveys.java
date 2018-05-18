@@ -5,12 +5,12 @@ import java.util.Date;
 public class Surveys {
     private int id, status, user_id, email_verification_on, open;
     private String name, description, password, is_deleted;
-    private Date created, modified;
+    private String created, modified;
 
     public Surveys(){}
 
     public Surveys(int id, String name, String description, String password, int status, int verification, int user_id,
-                   int open, Date created, Date modified){
+                   int open, String created, String modified){
         this.id = id;
         this.name = name;
         this.description = description;
@@ -39,11 +39,11 @@ public class Surveys {
         this.name = name;
     }
 
-    public Date getCreated() {
+    public String getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(String created) {
         this.created = created;
     }
 

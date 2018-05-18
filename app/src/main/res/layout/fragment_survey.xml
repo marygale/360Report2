@@ -47,8 +47,8 @@
         android:id="@+id/ListSurvey"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="130dp"
         android:divider="#b5b5b5"
-        android:dividerHeight="1dp"
+        android:dividerHeight="-2dp"
         android:listSelector="@drawable/list_selector" />
 </RelativeLayout>

@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         switch(menuItem.getItemId()) {
             case R.id.survey_list:
                 fragmentClass = SurveyFragment.class;
-                Toast.makeText(getApplicationContext(), "Survey List ",   Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Loading Survey List ",   Toast.LENGTH_LONG).show();
                 break;
             case R.id.builder:
                 fragmentClass = UserFragment.class;
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentClass = UserFragment.class;
                 break;
             case R.id.user_menu:
-                Toast.makeText(getApplicationContext(), "User List ",   Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Loading User List ",   Toast.LENGTH_LONG).show();
                 fragmentClass = UserFragment.class;
                 break;
             default:
