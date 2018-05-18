@@ -11,6 +11,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -18,6 +28,7 @@ public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
 
     @BindView(R.id.input_name) EditText _nameText;
+    @BindView(R.id.last_name) EditText _lnameText;
     @BindView(R.id.input_address) EditText _addressText;
     @BindView(R.id.input_email) EditText _emailText;
     @BindView(R.id.input_mobile) EditText _mobileText;
@@ -25,6 +36,7 @@ public class SignupActivity extends AppCompatActivity {
     @BindView(R.id.input_reEnterPassword) EditText _reEnterPasswordText;
     @BindView(R.id.btn_signup) Button _signupButton;
     @BindView(R.id.link_login) TextView _loginLink;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,22 +69,24 @@ public class SignupActivity extends AppCompatActivity {
         if (!validate()) {
             onSignupFailed();
             return;
+        }else{
+            onPostRegister();
+            _signupButton.setEnabled(false);
         }
 
-        _signupButton.setEnabled(false);
 
        /* final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
-        progressDialog.show();*/
+        progressDialog.show();
 
         String name = _nameText.getText().toString();
         String address = _addressText.getText().toString();
         String email = _emailText.getText().toString();
         String mobile = _mobileText.getText().toString();
         String password = _passwordText.getText().toString();
-        String reEnterPassword = _reEnterPasswordText.getText().toString();
+        String reEnterPassword = _reEnterPasswordText.getText().toString();*/
 
         // TODO: Implement your own signup logic here.
 
@@ -105,6 +119,7 @@ public class SignupActivity extends AppCompatActivity {
         boolean valid = true;
 
         String name = _nameText.getText().toString();
+        String lname = _lnameText.getText().toString();
         String address = _addressText.getText().toString();
         String email = _emailText.getText().toString();
         String mobile = _mobileText.getText().toString();
@@ -116,6 +131,13 @@ public class SignupActivity extends AppCompatActivity {
             valid = false;
         } else {
             _nameText.setError(null);
+        }
+
+        if (lname.isEmpty() || lname.length() < 3) {
+            _lnameText.setError("at least 3 characters");
+            valid = false;
+        } else {
+            _lnameText.setError(null);
         }
 
         if (address.isEmpty()) {
@@ -133,7 +155,7 @@ public class SignupActivity extends AppCompatActivity {
             _emailText.setError(null);
         }
 
-        if (mobile.isEmpty() || mobile.length()!=10) {
+        if (mobile.isEmpty() || mobile.length()!=11) {
             _mobileText.setError("Enter Valid Mobile Number");
             valid = false;
         } else {
@@ -156,4 +178,35 @@ public class SignupActivity extends AppCompatActivity {
 
         return valid;
     }
+
+    public void onPostRegister(){
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+        String url = "https://mgsurvey.herokuapp.com/api/postRegister";
+
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //This code is executed if the server responds, whether or not the response contains data.
+                //The String 'response' contains the server's response.
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //This code is executed if there is an error.
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                MyData.put("first_name", _nameText.getText().toString());//Add the data you'd like to send to the server.
+                MyData.put("last_name", _lnameText.getText().toString());
+                MyData.put("address", _addressText.getText().toString());
+                MyData.put("email_address", _emailText.getText().toString());
+                MyData.put("password", _passwordText.getText().toString());
+
+                return MyData;
+            }
+        };
+        MyRequestQueue.add(MyStringRequest);
+    }
+
 }
