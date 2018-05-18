@@ -202,6 +202,7 @@ public class SignupActivity extends AppCompatActivity {
                 MyData.put("address", _addressText.getText().toString());
                 MyData.put("email_address", _emailText.getText().toString());
                 MyData.put("password", _passwordText.getText().toString());
+                MyData.put("role_id", "2");
 
                 return MyData;
             }

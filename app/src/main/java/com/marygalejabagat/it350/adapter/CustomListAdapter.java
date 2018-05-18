@@ -72,11 +72,11 @@ public class CustomListAdapter extends BaseAdapter {
         title.setText(m.getFirstName() + m.getLastName());
 
         // rating
-        rating.setText("Email: " + m.getEmail());
+        rating.setText(m.getEmail());
         if(m.getRoleID() == 1) role = "admin";
         if(m.getRoleID() == 2) role = "user";
         if(m.getRoleID() == 3) role = "subscriber";
-        genre.setText("Role: "+role);
+        genre.setText(role);
 
 
         return convertView;

@@ -68,7 +68,7 @@ public class UserFragment extends Fragment {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.e(TAG, response.toString());
+                        Log.e(TAG, String.valueOf(response.length()));
                         /*showProgress();*/
 
                         // Parsing json
@@ -84,14 +84,13 @@ public class UserFragment extends Fragment {
                                 user.setUserID(obj.getInt("user_id"));
                                 userList.add(user);
 
-
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
                         }
-
                         adapter.notifyDataSetChanged();
+
+
                     }
                 }, new Response.ErrorListener() {
             @Override
