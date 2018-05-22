@@ -10,7 +10,7 @@
             android:title="Survey List" />
         <item
             android:id="@+id/builder"
-            android:icon="@drawable/builder"
+            android:icon="@drawable/note"
             android:checked="true"
             android:title="Survey Builder" />
         <item

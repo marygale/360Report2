@@ -24,6 +24,7 @@ import android.support.v4.app.FragmentActivity;
 
 
 import com.marygalejabagat.it350.adapter.CustomListAdapter;
+import com.marygalejabagat.it350.fragment.SurveyBuilderFragment;
 import com.marygalejabagat.it350.fragment.SurveyFragment;
 import com.marygalejabagat.it350.fragment.UserFragment;
 import com.marygalejabagat.it350.model.User;
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Loading Survey List ",   Toast.LENGTH_LONG).show();
                 break;
             case R.id.builder:
-                fragmentClass = UserFragment.class;
+                fragmentClass = SurveyBuilderFragment.class;
                 Toast.makeText(getApplicationContext(), "Builder ",   Toast.LENGTH_LONG).show();
                 break;
             case R.id.nav_component:
