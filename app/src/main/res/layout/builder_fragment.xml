@@ -20,13 +20,6 @@
                     android:paddingLeft="24dp"
                     android:paddingRight="24dp">
 
-                       <!-- <ImageView android:src="@drawable/logo2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="72dp"
-                            android:layout_marginBottom="24dp"
-                            android:layout_gravity="center_horizontal" />-->
-
-                        <!-- Name Label -->
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -57,6 +50,17 @@
                         </android.support.design.widget.TextInputLayout>
 
                         <!-- Password Label -->
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp">
+                            <EditText android:id="@+id/input_password"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPassword"
+                                android:hint="Password"/>
+                        </android.support.design.widget.TextInputLayout>
 
 
                         <android.support.design.widget.TextInputLayout
@@ -73,20 +77,20 @@
                                 android:textSize="14dip"/>
 
                             <RadioGroup
-                                android:id="@+id/radioSex"
+                                android:id="@+id/emailVerify"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Email Verification">
 
                                 <RadioButton
-                                    android:id="@+id/radioMale"
+                                    android:id="@+id/emailOn"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="On"
                                     android:checked="true" />
 
                                 <RadioButton
-                                    android:id="@+id/radioFemale"
+                                    android:id="@+id/emailOff"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Off" />
@@ -110,28 +114,28 @@
                             android:textSize="14dip"/>
 
                         <CheckBox
-                            android:id="@+id/teacher"
+                            android:id="@+id/chckTeacher"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Teachers" />
 
                         <CheckBox
-                            android:id="@+id/staff"
+                            android:id="@+id/chckStaff"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Support Staff" />
 
                         <CheckBox
-                            android:id="@+id/admin"
+                            android:id="@+id/chckAdmin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Building &amp; District Admin" />
 
                         <CheckBox
-                            android:id="@+id/parent"
+                            android:id="@+id/chckParent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
