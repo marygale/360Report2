@@ -15,12 +15,14 @@
             android:title="Survey Builder" />
         <item
             android:id="@+id/nav_component"
+            android:icon="@drawable/component"
             android:title="Survey Components" />
         <item
             android:id="@+id/nav_slideshow"
             android:title="Subscribers" />
         <item
             android:id="@+id/user_menu"
+            android:icon="@drawable/people"
             android:title="User's List" />
     </group>
 
