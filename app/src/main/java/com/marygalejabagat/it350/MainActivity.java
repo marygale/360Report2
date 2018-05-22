@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Loading Survey List ",   Toast.LENGTH_LONG).show();
                 break;
             case R.id.builder:
+                /*fragmentClass = SurveyFragment.class;*/
                 fragmentClass = SurveyBuilderFragment.class;
                 Toast.makeText(getApplicationContext(), "Builder ",   Toast.LENGTH_LONG).show();
                 break;
