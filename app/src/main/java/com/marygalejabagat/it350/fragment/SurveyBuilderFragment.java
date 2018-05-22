@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 
+import com.marygalejabagat.it350.BuilderActivity;
 import com.marygalejabagat.it350.LoginActivity;
 import com.marygalejabagat.it350.R;
 import com.marygalejabagat.it350.adapter.SurveyListAdapter;
@@ -71,6 +72,7 @@ public class SurveyBuilderFragment extends Fragment {
    private TextView _txtGrp;
    private TextView _txtDimen;
    private TextView _txtPass;
+   private ArrayList<String> selectedDim = new ArrayList<String>();
 
 
 
@@ -118,8 +120,24 @@ public class SurveyBuilderFragment extends Fragment {
         if (!validate()) {
             return;
         }else{
-            Intent i = new Intent(view.getContext(), LoginActivity.class);
-            i.putExtra("dimension", "2");
+            Intent i = new Intent(view.getContext(), BuilderActivity.class);
+            if(_chckLeadership.isChecked()){
+                selectedDim.add("Leadership");
+               /*i.putExtra("dimension", "Leadership");*/
+            }else if(_chckRelationship.isChecked()){
+                selectedDim.add("Relationship");
+                /*i.putExtra("dimension", "Relationship");*/
+            }else if(_chckMgt.isChecked()){
+                selectedDim.add("Management");
+                /*i.putExtra("dimension", "Management");*/
+            }else if(_chckVision.isChecked()){
+                selectedDim.add("Vision");
+                /*i.putExtra("dimension", "Vision");*/
+            }else if(_chckKnowledge.isChecked()){
+                selectedDim.add("Knowledge");
+                /*i.putExtra("dimension", "Knowledge");*/
+            }
+            i.putExtra("dimension", selectedDim);
             startActivity(i);
         }
     }
@@ -167,6 +185,7 @@ public class SurveyBuilderFragment extends Fragment {
         }else{
             _txtGrp.setError(null);
         }
+
 
         /** at least one dimension is check **/
 
