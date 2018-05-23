@@ -1,10 +1,11 @@
 package com.marygalejabagat.it350.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,50 +13,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
-
 import com.marygalejabagat.it350.BuilderActivity;
-import com.marygalejabagat.it350.LoginActivity;
 import com.marygalejabagat.it350.R;
-import com.marygalejabagat.it350.adapter.SurveyListAdapter;
-import com.marygalejabagat.it350.app.AppController;
-import com.marygalejabagat.it350.model.Surveys;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import butterknife.BindView;
 
 
 public class SurveyBuilderFragment extends Fragment {
 
-    private static final String TAG = "Survey Fragment";
-    private static final String url = "https://mgsurvey.herokuapp.com/api/getSurveyList";
-    private List<Surveys> survey_list = new ArrayList<Surveys>();
-    private ListView listView;
-    private TextView TxtWait;
-    private SurveyListAdapter adapter;
+   View view;
 
-    View view;
    private Button _nxtButton;
-
-
    private TextView _surveyName;
    private TextView _descText;
    private RadioButton _emailOn;
@@ -73,6 +45,7 @@ public class SurveyBuilderFragment extends Fragment {
    private TextView _txtDimen;
    private TextView _txtPass;
    private ArrayList<String> selectedDim = new ArrayList<String>();
+
 
 
 
@@ -97,7 +70,6 @@ public class SurveyBuilderFragment extends Fragment {
         view = inflater.inflate(R.layout.builder_fragment, container, false);
         _nxtButton = (Button) view.findViewById(R.id.btn_next);
         _nxtButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 fnNext();
@@ -115,30 +87,44 @@ public class SurveyBuilderFragment extends Fragment {
 
     }
 
+
     public void fnNext(){
         Toast.makeText(view.getContext(), "Next ",   Toast.LENGTH_LONG).show();
         if (!validate()) {
             return;
         }else{
-            Intent i = new Intent(view.getContext(), BuilderActivity.class);
+            /*Intent i = new Intent(view.getContext(), BuilderActivity.class);
             if(_chckLeadership.isChecked()){
                 selectedDim.add("Leadership");
-               /*i.putExtra("dimension", "Leadership");*/
+               i.putExtra("dimension", "Leadership");
             }else if(_chckRelationship.isChecked()){
                 selectedDim.add("Relationship");
-                /*i.putExtra("dimension", "Relationship");*/
+                i.putExtra("dimension", "Relationship");
             }else if(_chckMgt.isChecked()){
                 selectedDim.add("Management");
-                /*i.putExtra("dimension", "Management");*/
+                i.putExtra("dimension", "Management");
             }else if(_chckVision.isChecked()){
                 selectedDim.add("Vision");
-                /*i.putExtra("dimension", "Vision");*/
+                i.putExtra("dimension", "Vision");
             }else if(_chckKnowledge.isChecked()){
                 selectedDim.add("Knowledge");
-                /*i.putExtra("dimension", "Knowledge");*/
+                i.putExtra("dimension", "Knowledge");
             }
             i.putExtra("dimension", selectedDim);
-            startActivity(i);
+            startActivity(i);*/
+            Fragment fragment = null;
+            Class fragmentClass;
+            fragmentClass = BuilderFragment.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            /*FragmentManager fragmentManager = getChildFragmentManager();*/
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+
         }
     }
 

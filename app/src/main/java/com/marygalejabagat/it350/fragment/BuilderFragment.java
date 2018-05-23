@@ -78,14 +78,14 @@ public class BuilderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.builder_fragment2, container, false);
-        String dim = getActivity().getIntent().getExtras().getString("dimension");
-        Log.e("DIMENSION", dim);
-        JsonArrayRequest userReq = new JsonArrayRequest(posttUrl,
+        /*String dim = getActivity().getIntent().getExtras().getString("dimension");
+        Log.e("DIMENSION", dim);*/
+        /*JsonArrayRequest userReq = new JsonArrayRequest(posttUrl,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.e("GGGGG", response.toString());
-                        /*showProgress();*/
+                        *//*showProgress();*//*
 
                         // Parsing json
                         if(response.length() > 0){
@@ -120,13 +120,13 @@ public class BuilderFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.e("engz", error.getMessage());
-                /*  showProgress();*/
+                *//*  showProgress();*//*
 
             }
         });
 
         // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(userReq);
+        AppController.getInstance().addToRequestQueue(userReq);*/
 
         return view;
     }
