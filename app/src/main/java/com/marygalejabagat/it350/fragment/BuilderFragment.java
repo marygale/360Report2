@@ -78,6 +78,16 @@ public class BuilderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.builder_fragment2, container, false);
+
+        Bundle arguments = getArguments();
+        ArrayList dim = arguments.getStringArrayList("dimension");
+        //Retrieving values from list
+        int size = dim.size();
+        for(int i=0;i<size;i++)
+        {
+            System.out.println(dim.get(i));
+        }
+
         /*String dim = getActivity().getIntent().getExtras().getString("dimension");
         Log.e("DIMENSION", dim);*/
         /*JsonArrayRequest userReq = new JsonArrayRequest(posttUrl,

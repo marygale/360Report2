@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,13 +18,22 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.marygalejabagat.it350.BuilderActivity;
 import com.marygalejabagat.it350.R;
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class SurveyBuilderFragment extends Fragment {
+    private static final String TAG = "survey Builder fragment";
 
    View view;
 
@@ -45,6 +55,7 @@ public class SurveyBuilderFragment extends Fragment {
    private TextView _txtDimen;
    private TextView _txtPass;
    private ArrayList<String> selectedDim = new ArrayList<String>();
+   /*List selectedDim = new ArrayList();*/
 
 
 
@@ -93,34 +104,33 @@ public class SurveyBuilderFragment extends Fragment {
         if (!validate()) {
             return;
         }else{
-            /*Intent i = new Intent(view.getContext(), BuilderActivity.class);
+            saveQuestion();
             if(_chckLeadership.isChecked()){
                 selectedDim.add("Leadership");
-               i.putExtra("dimension", "Leadership");
             }else if(_chckRelationship.isChecked()){
                 selectedDim.add("Relationship");
-                i.putExtra("dimension", "Relationship");
             }else if(_chckMgt.isChecked()){
                 selectedDim.add("Management");
-                i.putExtra("dimension", "Management");
             }else if(_chckVision.isChecked()){
                 selectedDim.add("Vision");
-                i.putExtra("dimension", "Vision");
             }else if(_chckKnowledge.isChecked()){
                 selectedDim.add("Knowledge");
-                i.putExtra("dimension", "Knowledge");
             }
-            i.putExtra("dimension", selectedDim);
+            /*i.putExtra("dimension", selectedDim);
             startActivity(i);*/
             Fragment fragment = null;
             Class fragmentClass;
+
+            Bundle arguments = new Bundle();
+            arguments.putStringArrayList("dimension", selectedDim);
+
             fragmentClass = BuilderFragment.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            /*FragmentManager fragmentManager = getChildFragmentManager();*/
+            fragment.setArguments(arguments);
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
@@ -130,6 +140,9 @@ public class SurveyBuilderFragment extends Fragment {
 
     public boolean validate(){
         boolean valid = true;
+
+        _emailOn = (RadioButton) view.findViewById(R.id.emailOn);
+        _emailOff = (RadioButton) view.findViewById(R.id.emailOff);
 
         _surveyName = (TextView) view.findViewById(R.id.survey_name);
         _descText = (TextView) view.findViewById(R.id.description);
@@ -188,5 +201,34 @@ public class SurveyBuilderFragment extends Fragment {
             _txtDimen.setError(null);
         }
         return valid;
+    }
+
+    public void saveQuestion(){
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(view.getContext());
+        String url = "https://mgsurvey.herokuapp.com/api/postSurvey";
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("RESPONSE", response.toString());
+                //This code is executed if the server responds, whether or not the response contains data.
+                //The String 'response' contains the server's response.
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "error on post survey");
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> Survey = new HashMap<String, String>();
+                Survey.put("name", _surveyName.getText().toString());//Add the data you'd like to send to the server.
+                Survey.put("description", _descText.getText().toString());
+                Survey.put("password", _txtPass.getText().toString());
+                Survey.put("emailOn", _emailOn.getText().toString());
+                Survey.put("emailOff", _emailOff.getText().toString());
+                return Survey;
+            }
+        };
+        MyRequestQueue.add(MyStringRequest);
     }
 }
