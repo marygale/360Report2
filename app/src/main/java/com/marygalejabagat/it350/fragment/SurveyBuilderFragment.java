@@ -31,6 +31,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 
 public class SurveyBuilderFragment extends Fragment {
     private static final String TAG = "survey Builder fragment";
@@ -55,7 +60,7 @@ public class SurveyBuilderFragment extends Fragment {
    private TextView _txtDimen;
    private TextView _txtPass;
    private ArrayList<String> selectedDim = new ArrayList<String>();
-   /*List selectedDim = new ArrayList();*/
+   private ArrayList<String> selectedGroup = new ArrayList<String>();
 
 
 
@@ -105,35 +110,6 @@ public class SurveyBuilderFragment extends Fragment {
             return;
         }else{
             saveQuestion();
-            if(_chckLeadership.isChecked()){
-                selectedDim.add("Leadership");
-            }else if(_chckRelationship.isChecked()){
-                selectedDim.add("Relationship");
-            }else if(_chckMgt.isChecked()){
-                selectedDim.add("Management");
-            }else if(_chckVision.isChecked()){
-                selectedDim.add("Vision");
-            }else if(_chckKnowledge.isChecked()){
-                selectedDim.add("Knowledge");
-            }
-            /*i.putExtra("dimension", selectedDim);
-            startActivity(i);*/
-            Fragment fragment = null;
-            Class fragmentClass;
-
-            Bundle arguments = new Bundle();
-            arguments.putStringArrayList("dimension", selectedDim);
-
-            fragmentClass = BuilderFragment.class;
-            try {
-                fragment = (Fragment) fragmentClass.newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            fragment.setArguments(arguments);
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
 
         }
     }
@@ -209,9 +185,15 @@ public class SurveyBuilderFragment extends Fragment {
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("RESPONSE", response.toString());
-                //This code is executed if the server responds, whether or not the response contains data.
-                //The String 'response' contains the server's response.
+                Log.e("RESPONSE", response);
+
+                if(response != "0"){
+                    Log.e("SURVEY_ID ", response);
+                    processNext(response);
+                }
+
+
+
             }
         }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
             @Override
@@ -220,15 +202,103 @@ public class SurveyBuilderFragment extends Fragment {
             }
         }) {
             protected Map<String, String> getParams() {
+                if(_chckLeadership.isChecked()){
+                    selectedDim.add(_chckLeadership.getText().toString());
+                }
+                if(_chckRelationship.isChecked()){
+                    selectedDim.add(_chckRelationship.getText().toString());
+                }
+                if(_chckMgt.isChecked()){
+                    selectedDim.add(_chckMgt.getText().toString());
+                }
+                if(_chckVision.isChecked()){
+                    selectedDim.add(_chckVision.getText().toString());
+                }
+                if(_chckKnowledge.isChecked()){
+                    selectedDim.add(_chckKnowledge.getText().toString());
+                }
+
                 Map<String, String> Survey = new HashMap<String, String>();
-                Survey.put("name", _surveyName.getText().toString());//Add the data you'd like to send to the server.
+                Survey.put("name", _surveyName.getText().toString());
                 Survey.put("description", _descText.getText().toString());
                 Survey.put("password", _txtPass.getText().toString());
                 Survey.put("emailOn", _emailOn.getText().toString());
                 Survey.put("emailOff", _emailOff.getText().toString());
+                int s = selectedDim.size();Log.e("SIIIIZZE ", "gale"+s);
+                for(int i = 0; i<selectedDim.size(); i++){
+                    Survey.put("dimensions["+i+"]", selectedDim.get(i));
+                    Log.e("dimensions["+i+"]", selectedDim.get(i));
+                }
+
+
+                if(_chckTeacher.isChecked()){
+                    selectedGroup.add(_chckTeacher.getText().toString());
+                }
+                if(_chckStaff.isChecked()){
+                    selectedGroup.add(_chckStaff.getText().toString());
+                }
+                if(_chckAdmin.isChecked()){
+                    selectedGroup.add(_chckAdmin.getText().toString());
+                }
+                if(_chckParent.isChecked()){
+                    selectedGroup.add(_chckParent.getText().toString());
+                }
+                for(int i = 0; i<selectedGroup.size(); i++){
+                    Survey.put("groups["+i+"]", selectedGroup.get(i));
+                }
+                Log.e("survey To String ", Survey.toString());
                 return Survey;
             }
         };
         MyRequestQueue.add(MyStringRequest);
+    }
+
+    public void processNext(String survey){
+            Fragment fragment = null;
+            Class fragmentClass;
+
+            Bundle arguments = new Bundle();
+            arguments.putString("survey", survey);
+
+            fragmentClass = BuilderFragment.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            fragment.setArguments(arguments);
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+        /*if(_chckLeadership.isChecked()){
+                selectedDim.add("Leadership");
+            }else if(_chckRelationship.isChecked()){
+                selectedDim.add("Relationship");
+            }else if(_chckMgt.isChecked()){
+                selectedDim.add("Management");
+            }else if(_chckVision.isChecked()){
+                selectedDim.add("Vision");
+            }else if(_chckKnowledge.isChecked()){
+                selectedDim.add("Knowledge");
+            }
+            *//*i.putExtra("dimension", selectedDim);
+            startActivity(i);*//*
+            Fragment fragment = null;
+            Class fragmentClass;
+
+            Bundle arguments = new Bundle();
+            arguments.putStringArrayList("dimension", selectedDim);
+
+            fragmentClass = BuilderFragment.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            fragment.setArguments(arguments);
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();*/
+
+
     }
 }
