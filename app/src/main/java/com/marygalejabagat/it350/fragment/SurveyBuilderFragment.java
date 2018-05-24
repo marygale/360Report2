@@ -188,6 +188,7 @@ public class SurveyBuilderFragment extends Fragment {
                 Log.e("RESPONSE", response);
 
                 if(response != "0"){
+
                     Log.e("SURVEY_ID ", response);
                     processNext(response);
                 }

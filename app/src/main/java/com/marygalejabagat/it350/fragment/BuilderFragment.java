@@ -81,6 +81,7 @@ public class BuilderFragment extends Fragment {
 
         Bundle arguments = getArguments();
         String dim = arguments.getString("survey");
+        /*int id = Integer.parseInt(dim);*/
         Log.e("Builder2", dim);
         loadData(dim);
         /*//Retrieving values from list
@@ -153,17 +154,17 @@ public class BuilderFragment extends Fragment {
     public void loadData(final String survey){
         String url = "https://mgsurvey.herokuapp.com/api/getQuestionsBySurvey";
         RequestQueue MyRequestQueue = Volley.newRequestQueue(view.getContext());
-        StringRequest MyStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.e("GETQUESIONSbySurvey", response);
 
                 if(response != "0"){
-                    Log.e("SURVEY_ID ", response);
+                    Log.e("RESPONSE_SURVEY_ID ", response);
 
                 }
             }
-        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "error on post survey");
@@ -171,11 +172,11 @@ public class BuilderFragment extends Fragment {
         }) {
             protected Map<String, String> getParams() {
 
-                Map<String, String> Survey = new HashMap<String, String>();
-                Survey.put("survey_id", survey.toString());
+                Map<String, String> Param = new HashMap<String, String>();
+                Param.put("survey_id", survey);
 
-                Log.e("survey To String ", Survey.toString());
-                return Survey;
+                Log.e("survey To String ", Param.toString());
+                return Param;
             }
         };
         MyRequestQueue.add(MyStringRequest);
