@@ -132,7 +132,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Building &amp; District Admin" />
+                            android:text="Building and District Admin" />
 
                         <CheckBox
                             android:id="@+id/chckParent"

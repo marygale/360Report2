@@ -150,7 +150,39 @@ public class BuilderFragment extends Fragment {
 
     }
 
-    public void loadData(String id){
+    public void loadData(final String survey){
+        String url = "https://mgsurvey.herokuapp.com/api/getQuestionsBySurvey";
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(view.getContext());
+        StringRequest MyStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("GETQUESIONSbySurvey", response);
+
+                if(response != "0"){
+                    Log.e("SURVEY_ID ", response);
+
+                }
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "error on post survey");
+            }
+        }) {
+            protected Map<String, String> getParams() {
+
+                Map<String, String> Survey = new HashMap<String, String>();
+                Survey.put("survey_id", survey.toString());
+
+                Log.e("survey To String ", Survey.toString());
+                return Survey;
+            }
+        };
+        MyRequestQueue.add(MyStringRequest);
+
+    }
+    public void loadData_1(String survey){
+
         String url = "";
         JsonArrayRequest userReq = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
