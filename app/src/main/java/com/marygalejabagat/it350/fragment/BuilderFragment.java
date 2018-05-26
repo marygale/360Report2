@@ -4,6 +4,7 @@ package com.marygalejabagat.it350.fragment;
 import com.marygalejabagat.it350.adapter.QuestionAdapter;
 import com.marygalejabagat.it350.model.Questions;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -49,6 +50,7 @@ public class BuilderFragment extends Fragment {
     private QuestionAdapter adapter;
     private ListView listView;
     public static ArrayList<Questions> QuestionList = new ArrayList<>();
+    Context context;
 
     View view;
     private CheckBox _chckName;
@@ -77,9 +79,12 @@ public class BuilderFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.listQuestions);
         _chckName = (CheckBox) view.findViewById(R.id.checkQuestion);
         _txtName = (TextView) view.findViewById(R.id.dimensions);
-        adapter = new QuestionAdapter(getActivity(), QuestionList);
+        adapter = new QuestionAdapter(view.getContext(), R.layout.questons_list, QuestionList);
         listView.setAdapter(adapter);
         Log.e("Builder2", dim);
+
+
+
         loadData(dim);
         return view;
     }
@@ -110,6 +115,7 @@ public class BuilderFragment extends Fragment {
                         Log.e("RESULT:::::::", obj.getString("name"));
                     }
                     adapter.notifyDataSetChanged();
+                    Log.e("QUESTIONLIST:::::::", QuestionList.toString());
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -131,7 +137,7 @@ public class BuilderFragment extends Fragment {
                 return Param;
             }
         };
-       /* MyRequestQueue.add(QuestionReq);*/
+        MyRequestQueue.add(QuestionReq);
         AppController.getInstance().addToRequestQueue(QuestionReq);
 
     }
