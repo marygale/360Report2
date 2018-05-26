@@ -10,7 +10,7 @@
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:layout_marginTop="-25dp"
+        android:layout_marginTop="-35dp"
         app:srcCompat="@drawable/usjr_building" />
 
     <TextView
@@ -26,21 +26,6 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textSize="24sp"
         android:textStyle="bold" />
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-        <TextView
-            android:id="@+id/txtWait"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:textSize="20dp"
-            android:text="List is empty"
-            android:fontFamily="sans-serif-condensed"
-            android:textColor="#4286f4"
-            android:layout_marginLeft="14dp"/>
-    </android.support.constraint.ConstraintLayout>
 
 
     <ListView
@@ -49,6 +34,6 @@
         android:layout_height="match_parent"
         android:layout_marginTop="130dp"
         android:divider="#b5b5b5"
-        android:dividerHeight="-2dp"
+        android:dividerHeight="1dp"
         android:listSelector="@drawable/list_selector" />
 </RelativeLayout>

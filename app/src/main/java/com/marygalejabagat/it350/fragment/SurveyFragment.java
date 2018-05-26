@@ -1,5 +1,6 @@
 package com.marygalejabagat.it350.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,7 +41,6 @@ public class SurveyFragment extends Fragment {
     private static final String url = "https://mgsurvey.herokuapp.com/api/getSurveyList";
     private List<Surveys> survey_list = new ArrayList<Surveys>();
     private ListView listView;
-    private TextView TxtWait;
     private SurveyListAdapter adapter;
 
     View view;
@@ -65,14 +66,35 @@ public class SurveyFragment extends Fragment {
         adapter = new SurveyListAdapter(getActivity(), survey_list);
         listView.setAdapter(adapter);
         Log.e(TAG, "LOGS here");
-        TxtWait = (TextView) view.findViewById(R.id.txtWait);
+        loadSurvey();
+
+        return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.drawer_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public void loadSurvey(){
+        final LinearLayout rl = (LinearLayout) view.findViewById(R.id.main_layout);
+
+        final ProgressDialog pd = new ProgressDialog(view.getContext());
+        pd.setIndeterminate(false);
+        pd.setMessage("Loading user list.....");
+        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setCancelable(true);
+        pd.setMax(100);
+        pd.show();
 
         JsonArrayRequest userReq = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.e("GGGGG", response.toString());
-                        /*showProgress();*/
+                        pd.dismiss();
 
                         // Parsing json
                         if(response.length() > 0){
@@ -94,9 +116,6 @@ public class SurveyFragment extends Fragment {
                             }
 
                             adapter.notifyDataSetChanged();
-                        }else{
-                            TxtWait.setVisibility(View.VISIBLE);
-                            TxtWait.setText("No data to display");
                         }
 
                     }
@@ -104,20 +123,12 @@ public class SurveyFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.e("engz", error.getMessage());
-                /*  showProgress();*/
+                pd.dismiss();
 
             }
         });
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(userReq);
-
-        return view;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.drawer_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 }

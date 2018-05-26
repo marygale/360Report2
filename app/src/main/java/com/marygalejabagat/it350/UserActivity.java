@@ -1,5 +1,6 @@
 package com.marygalejabagat.it350;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -22,14 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
-
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -93,6 +88,16 @@ public class UserActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        // Initialize a new instance of progress dialog
+        final ProgressDialog pd = new ProgressDialog(this);
+        pd.setIndeterminate(false);
+        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pd.setCancelable(true);
+        pd.setMax(100);
+        pd.show();
+        progressStatus = 0;
+
         /*Create volley request obj*/
         JsonArrayRequest userReq = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
@@ -100,7 +105,7 @@ public class UserActivity extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         Log.e("GGAAAAAAAAAAA", response.toString());
                         /*showProgress();*/
-
+                        pd.dismiss();
                         // Parsing json
                         for (int i = 0; i < response.length(); i++) {
                             try {
@@ -126,6 +131,7 @@ public class UserActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                pd.dismiss();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
               /*  showProgress();*/
 

@@ -24,6 +24,11 @@
             android:id="@+id/user_menu"
             android:icon="@drawable/people"
             android:title="User's List" />
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/people"
+            android:title="Logout" />
+
     </group>
 
     <!--<group android:checkableBehavior="single">

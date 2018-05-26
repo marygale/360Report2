@@ -1,6 +1,10 @@
 package com.marygalejabagat.it350.fragment;
 
+import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -9,8 +13,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -39,6 +43,10 @@ public class UserFragment extends Fragment {
     private List<User> userList = new ArrayList<User>();
     private ListView listView;
     private CustomListAdapter adapter;
+    private int progressStatus = 0;
+    private Handler handler = new Handler();
+    private ProgressDialog pd;
+    private LinearLayout rl;
 
     View view;
 
@@ -51,6 +59,7 @@ public class UserFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -62,12 +71,34 @@ public class UserFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.ListUser);
         adapter = new CustomListAdapter(getActivity(), userList);
         listView.setAdapter(adapter);
-        Log.e(TAG, "LOGS here");
+        loadUser();
+        return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.drawer_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public void loadUser(){
+        final LinearLayout rl = (LinearLayout) view.findViewById(R.id.main_layout);
+
+        final ProgressDialog pd = new ProgressDialog(view.getContext());
+        pd.setIndeterminate(false);
+        pd.setMessage("Loading user list.....");
+        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+       /* pd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));*/
+        pd.setCancelable(true);
+        pd.setMax(100);
+        pd.show();
 
         JsonArrayRequest userReq = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        pd.dismiss();
                         Log.e(TAG, String.valueOf(response.length()));
                         /*showProgress();*/
 
@@ -95,6 +126,8 @@ public class UserFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                pd.setMessage("Error while loading user list");
+                pd.dismiss();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 /*  showProgress();*/
 
@@ -103,13 +136,5 @@ public class UserFragment extends Fragment {
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(userReq);
-
-        return view;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.drawer_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 }

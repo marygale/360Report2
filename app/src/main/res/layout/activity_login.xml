@@ -5,6 +5,7 @@
     android:fitsSystemWindows="true">
 
     <LinearLayout
+        android:id="@+id/login_layout"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,26 +19,6 @@
             android:layout_marginBottom="24dp"
             android:layout_gravity="center_horizontal" />
 
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            style="@android:style/Widget.Holo.ProgressBar.Horizontal"
-            android:indeterminate="true"/>
-        <TextView
-            android:id="@+id/txtProgress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_toRightOf="@id/progressBar"
-            android:textSize="20dp"
-            android:fontFamily="sans-serif-condensed"
-            android:layout_alignBottom="@+id/progressBar"
-            android:textColor="#4286f4"
-            android:layout_marginLeft="10dp"/>
-        <!--android:visibility="gone"-->
 
         <!--  Email Label -->
         <android.support.design.widget.TextInputLayout

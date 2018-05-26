@@ -1,5 +1,6 @@
 package com.marygalejabagat.it350;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -9,9 +10,25 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.marygalejabagat.it350.model.User;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,28 +89,11 @@ public class LoginActivity extends AppCompatActivity  {
         _loginButton.setEnabled(false);
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
-
-        showProgress();
-
-        /*final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
+        RequestLogin();
+        //    onLoginSuccess();
 
 
 
-        // TODO: Implement your own authentication logic here.
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);*/
     }
 
 
@@ -116,6 +116,17 @@ public class LoginActivity extends AppCompatActivity  {
     }
 
     public void onLoginSuccess() {
+        final LinearLayout rl = (LinearLayout) findViewById(R.id.login_layout);
+
+        final ProgressDialog pd = new ProgressDialog(this);
+        pd.setIndeterminate(false);
+        pd.setMessage("Login.....");
+        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setCancelable(true);
+        pd.setMax(100);
+        pd.show();
+
         _loginButton.setEnabled(true);
         finish();
     }
@@ -149,7 +160,7 @@ public class LoginActivity extends AppCompatActivity  {
         return valid;
     }
 
-    public void showProgress(){
+    /*public void showProgress(){
 
         progressStatus = 0;
 
@@ -187,5 +198,81 @@ public class LoginActivity extends AppCompatActivity  {
             }
         }).start();
 
+    }*/
+
+    public void RequestLogin(){
+        final LinearLayout rl = (LinearLayout) findViewById(R.id.login_layout);
+
+        final ProgressDialog pd = new ProgressDialog(this);
+        pd.setIndeterminate(true);
+        pd.setMessage("Authenticating.....");
+        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setCancelable(true);
+        pd.setMax(100);
+        pd.show();
+
+        String url = "https://mgsurvey.herokuapp.com/api/postLogin";
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+        StringRequest loginRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("RESPONSE", response.toString());
+                try {
+
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("status") == "failed"){
+                        pd.setMessage("Error while login in");
+                        pd.dismiss();
+                        return;
+                    }
+                    Log.e("OBJ", obj.getString("status"));
+                    Log.e("OBJ", obj.getString("result"));
+                    String res = obj.getString("result");
+                    JSONArray jsonArray = new JSONArray(res);
+                    for(int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject result = jsonArray.getJSONObject(i);
+                         Log.e("LOGIN", result.toString());
+                        User user = new User();
+                        user.setEmail(result.getString("email_address"));
+                        user.setRoleID(result.getInt("role_id"));
+                        user.setRoleName(result.getString("role_name"));
+                        user.setFirstName(result.getString("first_name"));
+                        user.setLastName(result.getString("last_name"));
+
+                        pd.dismiss();
+                        _loginButton.setEnabled(true);
+                        finish();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("JSonErr", e.getMessage());
+                    pd.dismiss();
+                    _loginButton.setEnabled(true);
+                    Log.e("ERROR_ON_LOGIN", " ON LOGINACTIVITY");
+                }
+
+
+
+
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pd.dismiss();
+                Log.e(TAG, "error on post survey");
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> User = new HashMap<String, String>();
+                User.put("email", _emailText.getText().toString());
+                User.put("password", _passwordText.getText().toString());
+                Log.e("REQUEST PARAM", User.toString());
+                return User;
+            }
+        };//fdbd3cd60f63ebe9505bb7e0310a73d2
+        MyRequestQueue.add(loginRequest);
     }
 }

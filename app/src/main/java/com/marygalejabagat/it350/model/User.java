@@ -3,15 +3,17 @@ package com.marygalejabagat.it350.model;
 public class User {
     private int userID, roleID;
     private String firstName, lastName, email;
+    private String roleName;
 
     public User(){}
 
-    public User(int userID, int roleID, String fname, String lname, String email){
+    public User(int userID, int roleID, String fname, String lname, String email, String roleName){
         this.userID = userID;
         this.roleID = roleID;
         this.firstName = fname;
         this.lastName = lname;
         this.email = email;
+        this.roleName = roleName;
     }
 
     public int getRoleID() {
@@ -52,5 +54,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }

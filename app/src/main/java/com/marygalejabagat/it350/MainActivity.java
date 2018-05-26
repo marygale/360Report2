@@ -1,11 +1,10 @@
 package com.marygalejabagat.it350;
 
-/*import android.app.Fragment;*/
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.support.design.widget.FloatingActionButton;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 
 import com.marygalejabagat.it350.adapter.CustomListAdapter;
@@ -40,13 +38,12 @@ public class MainActivity extends AppCompatActivity {
     public CustomListAdapter adapter = new CustomListAdapter(this, userList);
 
     private ActionBarDrawerToggle drawerToggle;
-
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -101,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                 fragmentClass = UserFragment.class;
                 break;
             case R.id.user_menu:
-                Toast.makeText(getApplicationContext(), "Loading User List ",   Toast.LENGTH_LONG).show();
                 fragmentClass = UserFragment.class;
                 break;
             default:
