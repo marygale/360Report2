@@ -1,6 +1,8 @@
 package com.marygalejabagat.it350;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -37,9 +39,12 @@ public class LoginActivity extends AppCompatActivity  {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     private ProgressBar progressBar;
-    private TextView txtProgress;
+    private TextView txtActiveUser;
     private int progressStatus = 0;
     private Handler handler = new Handler();
+    public static final String MyPREFERENCES = "Active User" ;
+    SharedPreferences sp;
+    private Session session;
 
     @BindView(R.id.input_email) EditText _emailText;
     @BindView(R.id.input_password) EditText _passwordText;
@@ -52,11 +57,18 @@ public class LoginActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        txtProgress = (TextView) findViewById(R.id.txtProgress);
+        txtActiveUser = (TextView) findViewById(R.id.activeUser);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        session = new Session(this);
+        if(session.loggedin()){
+            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            finish();
+        }
 
         ButterKnife.bind(this);
         Toast.makeText(getApplicationContext(), "Login Activity ",   Toast.LENGTH_LONG).show();
+        sp = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -64,6 +76,11 @@ public class LoginActivity extends AppCompatActivity  {
                 login();
             }
         });
+
+        if(session.loggedin()){
+            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            finish();
+        }
 
         _signupLink.setOnClickListener(new View.OnClickListener() {
 
@@ -160,46 +177,6 @@ public class LoginActivity extends AppCompatActivity  {
         return valid;
     }
 
-    /*public void showProgress(){
-
-        progressStatus = 0;
-
-        progressBar.setVisibility(View.VISIBLE);
-        txtProgress.setVisibility(View.VISIBLE);
-        txtProgress.setText("Authenticating...");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(progressStatus < 100){
-                    progressStatus +=1;
-                    try{
-                        Thread.sleep(20);
-                    }catch (InterruptedException e){
-                        e.printStackTrace();
-                    }
-                    // Update the progress bar
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.setProgress(progressStatus);
-                            // Show the progress on TextView
-                            txtProgress.setText(progressStatus+"");
-                            // If task execution completed
-                            if(progressStatus == 100){
-                                // Hide the progress bar from layout after finishing task
-                                progressBar.setVisibility(View.GONE);
-                                // Set a message of completion
-                                txtProgress.setText("Operation completed...");
-                                onLoginSuccess();
-                            }
-                        }
-                    });
-                }
-            }
-        }).start();
-
-    }*/
-
     public void RequestLogin(){
         final LinearLayout rl = (LinearLayout) findViewById(R.id.login_layout);
 
@@ -241,6 +218,18 @@ public class LoginActivity extends AppCompatActivity  {
                         user.setFirstName(result.getString("first_name"));
                         user.setLastName(result.getString("last_name"));
 
+                        /*SharedPreferences.Editor editor = sp.edit();
+
+                        editor.putString("activeEmail", result.getString("email_address"));
+                        editor.putString("activeRole", result.getString("role_name"));
+                        editor.putString("activeFname", result.getString("first_name"));
+                        editor.putString("activeLname", result.getString("last_name"));
+                        editor.commit();*/
+
+                        session.setLoggedin(true);
+
+
+                                //txtActiveUser
                         pd.dismiss();
                         _loginButton.setEnabled(true);
                         finish();
