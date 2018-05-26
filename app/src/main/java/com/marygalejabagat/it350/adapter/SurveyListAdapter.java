@@ -5,7 +5,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.marygalejabagat.it350.R;
 import com.marygalejabagat.it350.app.AppController;
 import com.marygalejabagat.it350.model.Surveys;
-import com.marygalejabagat.it350.model.Surveys;
 
 
 import java.util.List;

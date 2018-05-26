@@ -16,34 +16,15 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="56dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp">
+            android:paddingTop="30dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
-
-                <TextView android:id="@+id/dimensions"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:text="Dimension name"
-                    android:gravity="left"
-                    android:textSize="14dip"/>
-
-                <CheckBox
-                    android:id="@+id/chckQuestion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Leadership" />
-
-
-            </android.support.design.widget.TextInputLayout>
-
+            <ListView
+                android:id="@+id/listQuestions"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="80"/>
 
 
             <!-- Signup Button -->

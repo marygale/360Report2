@@ -11,12 +11,13 @@ public class Questions {
     private String name;
     private String modified;
     private int is_deleted;
+    private String dimensionName;
 
     public Questions(){
 
     }
 
-    public Questions(int id, String name, int dimension, int with_options, int is_calculating, String created, String modified){
+    public Questions(int id, String name, int dimension, int with_options, int is_calculating, String created, String modified, String dimension_name){
         this.id = id;
         this.name = name;
         this.dimension = dimension;
@@ -24,6 +25,8 @@ public class Questions {
         this.is_calculating = is_calculating;
         this.created = created;
         this.modified = modified;
+        this.dimensionName = dimension_name;
+
     }
 
 
@@ -91,10 +94,11 @@ public class Questions {
         this.name = name;
     }
 
-    public String setDeminsionName(String name){
-        Dimension dimension = new Dimension();
-        dimension.setName(name);
-        return dimension.getName();
+    public String getDimensionName() {
+        return dimensionName;
+    }
 
+    public void setDimensionName(String dimensionName) {
+        this.dimensionName = dimensionName;
     }
 }
