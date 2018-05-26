@@ -1,5 +1,8 @@
 package com.marygalejabagat.it350.fragment;
 
+
+import com.marygalejabagat.it350.model.Questions;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -54,11 +57,12 @@ public class BuilderFragment extends Fragment {
     private static final String TAG = "Survey Fragment";
     private static final String posttUrl = "https://mgsurvey.herokuapp.com/api/getAllQuestionsWithDimension";
     private List<Questions> question_list = new ArrayList<Questions>();
-    private CheckBox checkBox;
     private TextView TxtWait;
     private SurveyListAdapter adapter;
 
     View view;
+    private CheckBox _chckName;
+    private TextView _txtName;
 
 
     public BuilderFragment() {
@@ -152,17 +156,40 @@ public class BuilderFragment extends Fragment {
     }
 
     public void loadData(final String survey){
+        Log.e("LOADDATA", "TAG");
         String url = "https://mgsurvey.herokuapp.com/api/getQuestionsBySurvey";
         RequestQueue MyRequestQueue = Volley.newRequestQueue(view.getContext());
-        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        _chckName = (CheckBox) view.findViewById(R.id.chckQuestion);
+        _txtName = (TextView) view.findViewById(R.id.dimensions);
+        StringRequest QuestionReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("GETQUESIONSbySurvey", response);
+                Log.e("BUILDERFRAGMENT", response.toString());
 
-                if(response != "0"){
-                    Log.e("RESPONSE_SURVEY_ID ", response);
+                try {
 
+                    /*JSONObject obj = new JSONObject(response);*/
+                    JSONArray jsonArray = new JSONArray(response);
+                    for(int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        Log.e("RESULT:::::::", jsonObject.getString("name"));
+                        _txtName.setText(jsonObject.getString("dimension_name"));
+                        _chckName.setText(jsonObject.getString("name"));
+                    }
+                    /*for (int i = 0; i < obj.length(); i++) {
+                        JSONObject res = obj.getJSONObject(String.valueOf(i));
+
+
+                    }*/
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("ERROR", " ON GETQUESTIONSBYSURVYE");
                 }
+                /*Questions question = new Questions();
+                */
             }
         }, new Response.ErrorListener() {
             @Override
@@ -179,7 +206,7 @@ public class BuilderFragment extends Fragment {
                 return Param;
             }
         };
-        MyRequestQueue.add(MyStringRequest);
+        MyRequestQueue.add(QuestionReq);
 
     }
     public void loadData_1(String survey){

@@ -98,7 +98,7 @@ public class UserActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.e(TAG, response.toString());
+                        Log.e("GGAAAAAAAAAAA", response.toString());
                         /*showProgress();*/
 
                         // Parsing json

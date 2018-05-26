@@ -1,5 +1,7 @@
 package com.marygalejabagat.it350.model;
 
+import com.marygalejabagat.it350.model.Dimension;
+
 public class Questions {
     private int id;
     private int dimension;
@@ -16,12 +18,12 @@ public class Questions {
 
     public Questions(int id, String name, int dimension, int with_options, int is_calculating, String created, String modified){
         this.id = id;
+        this.name = name;
         this.dimension = dimension;
         this.with_options = with_options;
         this.is_calculating = is_calculating;
         this.created = created;
         this.modified = modified;
-        this.name = name;
     }
 
 
@@ -87,5 +89,12 @@ public class Questions {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String setDeminsionName(String name){
+        Dimension dimension = new Dimension();
+        dimension.setName(name);
+        return dimension.getName();
+
     }
 }
