@@ -19,6 +19,8 @@ import android.widget.Toast;
 import android.util.Log;
 import java.util.HashMap;
 
+import butterknife.BindView;
+
 public class QuestionAdapter  extends ArrayAdapter<Questions> {
 
     private final List<Questions> list;
@@ -34,10 +36,12 @@ public class QuestionAdapter  extends ArrayAdapter<Questions> {
         this.list = list;
     }
 
+     static HashMap<String, String> map = new HashMap<>();
 
     static class ViewHolder {
         protected TextView categoryName;
         protected CheckBox categoryCheckBox;
+        private Button btnSubmit;
 
     }
 
@@ -67,32 +71,44 @@ public class QuestionAdapter  extends ArrayAdapter<Questions> {
         viewHolder.categoryName.setText(q.getDimensionName());
         viewHolder.categoryCheckBox.setText(q.getName());
 
+
         viewHolder.categoryCheckBox.setChecked(q.getSelected());
         viewHolder.categoryCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                /*Integer pos = (Integer)  viewHolder.categoryCheckBox.getTag();*/
+                Integer pos = (Integer)  viewHolder.categoryCheckBox.getTag();
                 String name = (String) viewHolder.categoryCheckBox.getText();
                 Object id = (Object) viewHolder.categoryCheckBox.getTag();
                 Object surveyId = (Object) viewHolder.categoryName.getTag();
+
+                /*if(list.get(pos).getSelected()){
+                    list.get(pos).setSelected(false);
+                }else{
+                    list.get(pos).setSelected(true);
+                }*/
 
                 HashMap<String, String> en = new HashMap<String, String>();
                 en.put("name", name);
                 en.put("id", id.toString());
                 en.put("surveyId", surveyId.toString());
 
-
                 selectedQuestion.add(en);
-
                 Log.e("QUESTIONADAPTER :: ", selectedQuestion.toString());
 
-                /*Toast.makeText(getContext(), "Checkbox "+name+" clicked!", Toast.LENGTH_SHORT).show();*/
 
             }
 
         });
 
+        /*btnSubmit = (Button) convertView.findViewById(R.id.btnSubmit);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Log.e("Submit button :: ", selectedQuestion.toString());
+            }
+        });*/
         return convertView;
 
     }

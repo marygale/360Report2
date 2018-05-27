@@ -55,6 +55,7 @@ public class BuilderFragment extends Fragment {
     private CheckBox _chckName;
     private TextView _txtName;
     private Button btnSubmit;
+    LayoutInflater lf;
 
 
     public BuilderFragment() {
@@ -79,18 +80,21 @@ public class BuilderFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.listQuestions);
         _txtName = (TextView) view.findViewById(R.id.dimensions);
         adapter = new QuestionAdapter(view.getContext(), R.layout.questons_list, QuestionList);
+        lf = getLayoutInflater();
+        ViewGroup footer = (ViewGroup)lf.inflate(R.layout.question_footer,listView,false);
+        listView.addFooterView(footer);
         listView.setAdapter(adapter);
         Log.e("Builder2", dim);
         loadData(dim);
 
         btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        /*btnSubmit.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 save();
             }
-        });
+        });*/
         return view;
     }
 
@@ -153,21 +157,9 @@ public class BuilderFragment extends Fragment {
 
     public void save(){
 
-    }
-
-    public void checkBoxListener(){
-        _chckName = (CheckBox) view.findViewById(R.id.checkQuestion);
-        _chckName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CheckBox cb = (CheckBox) v ;
-                Questions q = (Questions) cb.getTag();
-                Toast.makeText(getContext(), "Clicked on checkbox "+cb.getText()+" is"+ cb.isChecked(), Toast.LENGTH_SHORT).show();
-                q.setSelected(cb.isChecked());
-            }
-
-        });
 
     }
+
+
 
 }

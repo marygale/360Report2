@@ -189,7 +189,7 @@ public class SurveyBuilderFragment extends Fragment {
          final LinearLayout rl = (LinearLayout) view.findViewById(R.id.login_layout);
          final android.app.ProgressDialog pd = new android.app.ProgressDialog(view.getContext());
           pd.setIndeterminate(false);
-          pd.setMessage("Loading.....");
+          pd.setMessage("Fixing survey questions.....");
           pd.setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL);
           pd.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
           pd.setCancelable(true);

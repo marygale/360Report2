@@ -22,12 +22,12 @@
         android:text="Submit"/>-->
 
 
-    <Button
+    <!--<Button
         android:id="@+id/btnSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp"
         android:layout_alignParentBottom="true"
-        android:text="Submit"/>
+        android:text="Submit"/>-->
 
 </RelativeLayout>
