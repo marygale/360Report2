@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -18,14 +18,14 @@ import java.util.ArrayList;
 import android.widget.Toast;
 import android.util.Log;
 import java.util.HashMap;
-import java.util.Map;
 
 public class QuestionAdapter  extends ArrayAdapter<Questions> {
 
     private final List<Questions> list;
     private LayoutInflater inflater;
     private Activity activity;
-    private ArrayList<String> selectedQuestion = new ArrayList<String>();
+    private ArrayList<HashMap<String, String>> selectedQuestion = new ArrayList<HashMap<String, String>>();
+    private Button btnSubmit;
 
 
 
@@ -34,11 +34,8 @@ public class QuestionAdapter  extends ArrayAdapter<Questions> {
         this.list = list;
     }
 
-     static HashMap<String, String> map = new HashMap<>();
 
     static class ViewHolder {
-        protected TextView txtId;
-        protected TextView txtSurveyId;
         protected TextView categoryName;
         protected CheckBox categoryCheckBox;
 
@@ -55,10 +52,6 @@ public class QuestionAdapter  extends ArrayAdapter<Questions> {
             viewHolder.categoryName = (TextView) convertView.findViewById(R.id.dimensions);
             viewHolder.categoryCheckBox = (CheckBox) convertView.findViewById(R.id.checkQuestion);
 
-            /** invisiblefield **/
-           /* viewHolder.txtId = (TextView) convertView.findViewById(R.id.questionId);
-            viewHolder.txtSurveyId = (TextView) convertView.findViewById(R.id.surveyId);*/
-
             convertView.setTag(viewHolder);
             convertView.setTag(R.id.dimensions, viewHolder.categoryName);
             convertView.setTag(R.id.checkQuestion, viewHolder.categoryCheckBox);
@@ -74,11 +67,6 @@ public class QuestionAdapter  extends ArrayAdapter<Questions> {
         viewHolder.categoryName.setText(q.getDimensionName());
         viewHolder.categoryCheckBox.setText(q.getName());
 
-        /*convertView.setTag(q.getSurveyId());
-        Log.e("convertView :: ", convertView.getTag().toString());
-        viewHolder.txtId.setText(q.getId());
-        viewHolder.txtSurveyId.setText(q.getSurveyId());*/
-
         viewHolder.categoryCheckBox.setChecked(q.getSelected());
         viewHolder.categoryCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,48 +77,17 @@ public class QuestionAdapter  extends ArrayAdapter<Questions> {
                 Object id = (Object) viewHolder.categoryCheckBox.getTag();
                 Object surveyId = (Object) viewHolder.categoryName.getTag();
 
-               /* String id = (String) viewHolder.txtId.getTag();
-                String survey = (String) viewHolder.txtSurveyId.getTag();
-                String survey = (String) viewHolder.txtSurveyId.getTag();*/
-
-               Map<String, String> en = new HashMap<String, String>();
-               en.put("name", name);
-               en.put("id", id.toString());
-               en.put("surveyId", surveyId.toString());
+                HashMap<String, String> en = new HashMap<String, String>();
+                en.put("name", name);
+                en.put("id", id.toString());
+                en.put("surveyId", surveyId.toString());
 
 
-               /* selectedQuestion.add(name);
-                selectedQuestion.add(surveyId);*/
-                 Log.e("QUESTIONADAPTER :: ", en.toString());
+                selectedQuestion.add(en);
 
-                /*Integer idNumber = list.get(pos).getId();
-                String id = new Integer(idNumber).toString();
+                Log.e("QUESTIONADAPTER :: ", selectedQuestion.toString());
 
-                Map<String, String> Question = new HashMap<String, String>();
-                Question.put("name", name);
-                Question.put("id", id);*/
-
-                /*String tag = (String) viewHolder.categoryCheckBox.getTag();
-                Log.e("TAG ::: ", tag);*/
-                Toast.makeText(getContext(), "Checkbox "+name+" clicked!", Toast.LENGTH_SHORT).show();
-
-
-                /*Toast.makeText(getContext(), q.toString(), Toast.LENGTH_SHORT).show();
-                if(list.get(pos).getSelected()){
-                    list.get(pos).setSelected(false);
-                }else{
-                    list.get(pos).setSelected(true);
-                    list.get(pos).setName(name);
-                    list.get(pos).setName(name);
-                    selectedQuestion.add(name);
-                    Integer idNumber = list.get(pos).getId();
-                    String id = new Integer(idNumber).toString();
-                    selectedQuestion.add(id);
-                    Toast.makeText(getContext(), "QUESTION ID "+id+" clicked!", Toast.LENGTH_SHORT).show();
-                }
-                Log.e("QUESTIONADAPTER :: ", selectedQuestion.toString());*/
-                /*Map<String, String> Survey = new HashMap<String, String>();*/
-
+                /*Toast.makeText(getContext(), "Checkbox "+name+" clicked!", Toast.LENGTH_SHORT).show();*/
 
             }
 
@@ -168,4 +125,8 @@ public class QuestionAdapter  extends ArrayAdapter<Questions> {
         checkQuestion.setText(q.getName());
         return convertView;
     }*/
+
+    public void processQuestion(){
+
+    }
 }
