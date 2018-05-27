@@ -8,18 +8,26 @@
     <ListView
         android:id="@+id/listQuestions"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_weight="80"/>
 
 
     <!-- Signup Button -->
-    <android.support.v7.widget.AppCompatButton
+    <!--<android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_submit"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="12dp"
         android:layout_alignParentBottom="true"
-        android:text="Submit"/>
+        android:text="Submit"/>-->
 
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:layout_alignParentBottom="true"
+        android:text="Submit"/>
 
 </RelativeLayout>

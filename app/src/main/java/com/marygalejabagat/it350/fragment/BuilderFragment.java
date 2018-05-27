@@ -39,14 +39,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-
+import android.widget.Toast;
+import android.widget.Button;
 
 public class BuilderFragment extends Fragment {
 
     private static final String TAG = "Survey Fragment";
     private static final String posttUrl = "https://mgsurvey.herokuapp.com/api/getAllQuestionsWithDimension";
-    private TextView TxtWait;
     private QuestionAdapter adapter;
     private ListView listView;
     public static ArrayList<Questions> QuestionList = new ArrayList<>();
@@ -55,6 +54,7 @@ public class BuilderFragment extends Fragment {
     View view;
     private CheckBox _chckName;
     private TextView _txtName;
+    private Button btnSubmit;
 
 
     public BuilderFragment() {
@@ -77,15 +77,20 @@ public class BuilderFragment extends Fragment {
         Bundle arguments = getArguments();
         String dim = arguments.getString("survey");
         listView = (ListView) view.findViewById(R.id.listQuestions);
-        _chckName = (CheckBox) view.findViewById(R.id.checkQuestion);
         _txtName = (TextView) view.findViewById(R.id.dimensions);
         adapter = new QuestionAdapter(view.getContext(), R.layout.questons_list, QuestionList);
         listView.setAdapter(adapter);
         Log.e("Builder2", dim);
-
-
-
         loadData(dim);
+
+        btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                save();
+            }
+        });
         return view;
     }
 
@@ -102,15 +107,19 @@ public class BuilderFragment extends Fragment {
         StringRequest QuestionReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.e("RESPONSE:::::::", response.toString());
                 try {
+                    Log.e("RESPONSE:::::::", response.toString());
 
-                    /*JSONObject obj = new JSONObject(response);*/
+
                     JSONArray jsonArray = new JSONArray(response);
                     for(int i = 0; i < jsonArray.length(); i++) {
                         Questions q = new Questions();
                         JSONObject obj = jsonArray.getJSONObject(i);
                         q.setDimensionName(obj.getString("dimension_name"));
                         q.setName(obj.getString("name"));
+                        q.setSurveyId(obj.getInt("survey_id"));
+                        q.setId(obj.getInt("id"));
                         QuestionList.add(q);
                         Log.e("RESULT:::::::", obj.getString("name"));
                     }
@@ -138,7 +147,26 @@ public class BuilderFragment extends Fragment {
             }
         };
         MyRequestQueue.add(QuestionReq);
-        AppController.getInstance().addToRequestQueue(QuestionReq);
+
+
+    }
+
+    public void save(){
+
+    }
+
+    public void checkBoxListener(){
+        _chckName = (CheckBox) view.findViewById(R.id.checkQuestion);
+        _chckName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox cb = (CheckBox) v ;
+                Questions q = (Questions) cb.getTag();
+                Toast.makeText(getContext(), "Clicked on checkbox "+cb.getText()+" is"+ cb.isChecked(), Toast.LENGTH_SHORT).show();
+                q.setSelected(cb.isChecked());
+            }
+
+        });
 
     }
 

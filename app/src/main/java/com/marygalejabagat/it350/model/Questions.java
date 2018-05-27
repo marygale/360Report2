@@ -3,7 +3,7 @@ package com.marygalejabagat.it350.model;
 import com.marygalejabagat.it350.model.Dimension;
 
 public class Questions {
-    private int id;
+    private int id, surveyId;
     private int dimension;
     private int with_options;
     private int is_calculating;
@@ -12,12 +12,14 @@ public class Questions {
     private String modified;
     private int is_deleted;
     private String dimensionName;
+    private boolean isSelected;
+
 
     public Questions(){
 
     }
 
-    public Questions(int id, String name, int dimension, int with_options, int is_calculating, String created, String modified, String dimension_name){
+    public Questions(int id, String name, int dimension, int with_options, int is_calculating, String created, String modified, String dimension_name, boolean isSelected, int surveyId){
         this.id = id;
         this.name = name;
         this.dimension = dimension;
@@ -26,6 +28,8 @@ public class Questions {
         this.created = created;
         this.modified = modified;
         this.dimensionName = dimension_name;
+        this.isSelected = isSelected;
+        this.surveyId = surveyId;
 
     }
 
@@ -100,5 +104,21 @@ public class Questions {
 
     public void setDimensionName(String dimensionName) {
         this.dimensionName = dimensionName;
+    }
+
+    public boolean getSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+     public int getSurveyId() {
+        return surveyId;
+    }
+
+    public void setSurveyId(int id) {
+        this.surveyId = id;
     }
 }

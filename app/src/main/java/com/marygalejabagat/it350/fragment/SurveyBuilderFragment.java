@@ -34,11 +34,13 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 
 
 
 public class SurveyBuilderFragment extends Fragment {
-    private static final String TAG = "survey Builder fragment";
+    private static final String TAG = "SurveyBuilderFragment";
 
    View view;
 
@@ -61,6 +63,7 @@ public class SurveyBuilderFragment extends Fragment {
    private TextView _txtPass;
    private ArrayList<String> selectedDim = new ArrayList<String>();
    private ArrayList<String> selectedGroup = new ArrayList<String>();
+   ProgressBar pb;
 
 
 
@@ -84,6 +87,7 @@ public class SurveyBuilderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.builder_fragment, container, false);
+
         _nxtButton = (Button) view.findViewById(R.id.btn_next);
         _nxtButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +113,7 @@ public class SurveyBuilderFragment extends Fragment {
         if (!validate()) {
             return;
         }else{
+
             saveQuestion();
 
         }
@@ -180,6 +185,17 @@ public class SurveyBuilderFragment extends Fragment {
     }
 
     public void saveQuestion(){
+
+         final LinearLayout rl = (LinearLayout) view.findViewById(R.id.login_layout);
+         final android.app.ProgressDialog pd = new android.app.ProgressDialog(view.getContext());
+          pd.setIndeterminate(false);
+          pd.setMessage("Loading.....");
+          pd.setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL);
+          pd.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
+          pd.setCancelable(true);
+          pd.setMax(100);
+          pd.show();
+
         RequestQueue MyRequestQueue = Volley.newRequestQueue(view.getContext());
         String url = "https://mgsurvey.herokuapp.com/api/postSurvey";
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -188,7 +204,7 @@ public class SurveyBuilderFragment extends Fragment {
                 Log.e("RESPONSE", response);
 
                 if(response != "0"){
-
+                    pd.dismiss();
                     Log.e("SURVEY_ID ", response);
                     processNext(response);
                 }
@@ -200,6 +216,7 @@ public class SurveyBuilderFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "error on post survey");
+                 pd.dismiss();
             }
         }) {
             protected Map<String, String> getParams() {
