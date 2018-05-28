@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.marygalejabagat.it350.R;
+import com.marygalejabagat.it350.fragment.BuilderFragment;
 import com.marygalejabagat.it350.model.Questions;
 
 import java.util.List;
@@ -24,6 +25,7 @@ import butterknife.BindView;
 public class QuestionAdapter  extends ArrayAdapter<Questions> {
 
     private final List<Questions> list;
+    private final BuilderFragment fragment;
     private LayoutInflater inflater;
     private Activity activity;
     private ArrayList<HashMap<String, String>> selectedQuestion = new ArrayList<HashMap<String, String>>();
@@ -31,9 +33,10 @@ public class QuestionAdapter  extends ArrayAdapter<Questions> {
 
 
 
-    public QuestionAdapter(Context context, int resource, List<Questions> list) {
+    public QuestionAdapter(Context context, int resource, List<Questions> list, BuilderFragment fragment) {
         super(context, resource, list);
         this.list = list;
+        this.fragment = fragment;
     }
 
      static HashMap<String, String> map = new HashMap<>();
@@ -41,7 +44,7 @@ public class QuestionAdapter  extends ArrayAdapter<Questions> {
     static class ViewHolder {
         protected TextView categoryName;
         protected CheckBox categoryCheckBox;
-        private Button btnSubmit;
+        protected CheckBox posCheckBox;
 
     }
 
@@ -78,23 +81,25 @@ public class QuestionAdapter  extends ArrayAdapter<Questions> {
             public void onClick(View v) {
 
                 Integer pos = (Integer)  viewHolder.categoryCheckBox.getTag();
+                Log.e("POS", pos.toString());
                 String name = (String) viewHolder.categoryCheckBox.getText();
                 Object id = (Object) viewHolder.categoryCheckBox.getTag();
                 Object surveyId = (Object) viewHolder.categoryName.getTag();
-
-                /*if(list.get(pos).getSelected()){
-                    list.get(pos).setSelected(false);
-                }else{
-                    list.get(pos).setSelected(true);
-                }*/
 
                 HashMap<String, String> en = new HashMap<String, String>();
                 en.put("name", name);
                 en.put("id", id.toString());
                 en.put("surveyId", surveyId.toString());
-
                 selectedQuestion.add(en);
+                fragment.saveData(selectedQuestion);
                 Log.e("QUESTIONADAPTER :: ", selectedQuestion.toString());
+
+               /* if(list.get(pos).getSelected()){
+                    list.get(pos).setSelected(false);
+                }else{
+                    list.get(pos).setSelected(true);
+                }*/
+
 
 
             }

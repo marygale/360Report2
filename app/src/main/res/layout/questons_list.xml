@@ -34,12 +34,21 @@
                     android:gravity="center"
                     android:textAppearance="?android:attr/textAppearanceMedium"/>
 
+
                 <CheckBox
                     android:id="@+id/checkQuestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:text=""/>
+
+                <!--<CheckBox
+                    android:id="@+id/position"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:gravity="left"
+                    android:text=""
+                    android:visibility="visible" />-->
 
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,14 +25,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.marygalejabagat.it350.R;
-import com.marygalejabagat.it350.app.AppController;
-import com.marygalejabagat.it350.model.Questions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,6 +55,7 @@ public class BuilderFragment extends Fragment {
     private Button btnSubmit;
     LayoutInflater lf;
 
+    public static ArrayList<HashMap<String, String>> checkQuestion = new ArrayList<HashMap<String, String>>();
 
     public BuilderFragment() {
         // Required empty public constructor
@@ -79,7 +78,7 @@ public class BuilderFragment extends Fragment {
         String dim = arguments.getString("survey");
         listView = (ListView) view.findViewById(R.id.listQuestions);
         _txtName = (TextView) view.findViewById(R.id.dimensions);
-        adapter = new QuestionAdapter(view.getContext(), R.layout.questons_list, QuestionList);
+        adapter = new QuestionAdapter(view.getContext(), R.layout.questons_list, QuestionList, this);
         lf = getLayoutInflater();
         ViewGroup footer = (ViewGroup)lf.inflate(R.layout.question_footer,listView,false);
         listView.addFooterView(footer);
@@ -88,13 +87,13 @@ public class BuilderFragment extends Fragment {
         loadData(dim);
 
         btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
-        /*btnSubmit.setOnClickListener(new View.OnClickListener() {
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 save();
             }
-        });*/
+        });
         return view;
     }
 
@@ -155,11 +154,72 @@ public class BuilderFragment extends Fragment {
 
     }
 
+    public static void saveData(ArrayList<HashMap<String, String>> adapterMap){
+        /*final ArrayList<HashMap<String, String>> checkQuestion = adapterMap;*/
+        checkQuestion = adapterMap;
+    }
     public void save(){
+        final LinearLayout rl = (LinearLayout) view.findViewById(R.id.login_layout);
+        final android.app.ProgressDialog pd = new android.app.ProgressDialog(view.getContext());
+        pd.setIndeterminate(false);
+        pd.setMessage("Fixing survey questions.....");
+        pd.setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL);
+        pd.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
+        pd.setCancelable(true);
+        pd.setMax(100);
+        pd.show();
 
+        String qURL = "https://mgsurvey.herokuapp.com/api/postSurveyQuestions";
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(view.getContext());
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, qURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("RESPONSE::SAVEQUESTIONS", response);
 
+                if(response != "0"){
+                    pd.dismiss();
+                    processNext();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "error on postSurveyQuestions");
+                pd.dismiss();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> n = new HashMap<String, String>();
+                for(int i = 0; i<checkQuestion.size(); i++){
+                    Log.e("OTHERS", String.valueOf(checkQuestion.get(i)));
+                    n.put("questions["+i+"]", String.valueOf(checkQuestion.get(i)));
+                }
+                
+                return n;
+                /*return (Map<String, String>) checkQuestion;*/
+            }
+        };
+        MyRequestQueue.add(MyStringRequest);
+        Log.e("GALEBUILDERFRAGMENT",checkQuestion.toString());
+        Log.e("QUESTIONADAPTER", "TO BUILDERFRAGMENT");
     }
 
+    public void processNext(){
+        Fragment fragment = null;
+        Class fragmentClass;
+
+        fragmentClass = SurveyFragment.class;
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+    }
 
 
 }
