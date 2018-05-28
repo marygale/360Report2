@@ -112,8 +112,6 @@ public class BuilderFragment extends Fragment {
             public void onResponse(String response) {
                 Log.e("RESPONSE:::::::", response.toString());
                 try {
-                    Log.e("RESPONSE:::::::", response.toString());
-
 
                     JSONArray jsonArray = new JSONArray(response);
                     for(int i = 0; i < jsonArray.length(); i++) {
@@ -124,7 +122,6 @@ public class BuilderFragment extends Fragment {
                         q.setSurveyId(obj.getInt("survey_id"));
                         q.setId(obj.getInt("id"));
                         QuestionList.add(q);
-                        Log.e("RESULT:::::::", obj.getString("name"));
                     }
                     adapter.notifyDataSetChanged();
                     Log.e("QUESTIONLIST:::::::", QuestionList.toString());
@@ -162,7 +159,7 @@ public class BuilderFragment extends Fragment {
         final LinearLayout rl = (LinearLayout) view.findViewById(R.id.login_layout);
         final android.app.ProgressDialog pd = new android.app.ProgressDialog(view.getContext());
         pd.setIndeterminate(false);
-        pd.setMessage("Fixing survey questions.....");
+        pd.setMessage("Saving survey questions.....");
         pd.setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL);
         pd.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
         pd.setCancelable(true);
@@ -170,15 +167,15 @@ public class BuilderFragment extends Fragment {
         pd.show();
 
         String qURL = "https://mgsurvey.herokuapp.com/api/postSurveyQuestions";
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(view.getContext());
-        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, qURL, new Response.Listener<String>() {
+        RequestQueue QuestionQue = Volley.newRequestQueue(view.getContext());
+        StringRequest QuestionRequest = new StringRequest(Request.Method.POST, qURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.e("RESPONSE::SAVEQUESTIONS", response);
 
-                if(response != "0"){
-                    pd.dismiss();
+                if(response == "true"){
                     processNext();
+                    pd.dismiss();
                 }
 
             }
@@ -193,15 +190,17 @@ public class BuilderFragment extends Fragment {
             protected Map<String, String> getParams() {
                 Map<String, String> n = new HashMap<String, String>();
                 for(int i = 0; i<checkQuestion.size(); i++){
-                    Log.e("OTHERS", String.valueOf(checkQuestion.get(i)));
-                    n.put("questions["+i+"]", String.valueOf(checkQuestion.get(i)));
+
+                    n.put("questions["+i+"]", checkQuestion.get(i).toString());
+                    /*Log.e("OTHERS", String.valueOf(checkQuestion.get(i)));*/
+                    Log.e("OTHERS", checkQuestion.get(i).toString());
                 }
-                
+
                 return n;
                 /*return (Map<String, String>) checkQuestion;*/
             }
         };
-        MyRequestQueue.add(MyStringRequest);
+        QuestionQue.add(QuestionRequest);
         Log.e("GALEBUILDERFRAGMENT",checkQuestion.toString());
         Log.e("QUESTIONADAPTER", "TO BUILDERFRAGMENT");
     }
