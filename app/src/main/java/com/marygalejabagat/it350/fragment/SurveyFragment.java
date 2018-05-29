@@ -1,29 +1,30 @@
 package com.marygalejabagat.it350.fragment;
 
 import android.app.ProgressDialog;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.Toast;
-
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-
 import com.marygalejabagat.it350.MainActivity;
 import com.marygalejabagat.it350.R;
 import com.marygalejabagat.it350.adapter.SurveyListAdapter;
@@ -34,13 +35,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
-public class SurveyFragment extends Fragment {
+public class SurveyFragment extends Fragment{
 
     private static final String TAG = "Survey Fragment";
     private static final String url = "https://mgsurvey.herokuapp.com/api/getSurveyList";
@@ -48,8 +47,8 @@ public class SurveyFragment extends Fragment {
     private ListView listView;
     private SurveyListAdapter adapter;
     public static ProgressDialog pd;
-    private ActionMode currentActionMode;
-    private int currentListItemIndex;
+    /*private ActionMode currentActionMode;
+    private int currentListItemIndex;*/
 
 
     View view;
@@ -75,18 +74,64 @@ public class SurveyFragment extends Fragment {
         listView.setAdapter(adapter);
         Log.e(TAG, "LOGS here");
         loadSurvey();
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        listView.setOnItemClickListener(new OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+                Log.e("CLICK ON", "LISTVIEW");
+                popMenu();
+            }
+
+        });
+        /*listView.setOnClickListener(View.OnClickListener);
+        listView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(view.getContext(), v);
+                popup.setOnMenuItemClickListener(PopupMenu popup);
+                popup.inflate(R.menu.action_survey_menu);
+                popup.show();
+            }
+        });
+        listView.setOnItemClickListener(new OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+                ItemClicked item = adapter.getItemAtPosition(position);
+                Log.e("CLICK ON", "LISTVIEW");
+                PopupMenu popup = new PopupMenu(view.getContext(), view);
+                popup.setOnMenuItemClickListener(view.getDisplay());
+                popup.inflate(R.menu.action_survey_menu);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.action_survey_menu, popup.getMenu());
+                popup.show();
+                popMenu();
+                displayPopupWindow(view);
+            }
+
+        });*/
+
+        /*listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if (currentActionMode != null) { return false; }
                 currentListItemIndex = position;
-                /*currentActionMode = startActionMode(modeCallBack);*/
+                currentActionMode = startActionMode(modeCallBack);
                 currentActionMode = SurveyFragment.this.getActivity().startActionMode(modeCallBack);
                 view.setSelected(true);
                 return true;
             }
-        });
+        });*/
         return view;
     }
+
+    View.OnClickListener viewClickListener
+            = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View view) {
+            // TODO Auto-generated method stub
+            showPopupMenu(view);
+        }
+
+    };
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -151,7 +196,7 @@ public class SurveyFragment extends Fragment {
         pd.show();
     }
 
-    private ActionMode.Callback modeCallBack = new ActionMode.Callback() {
+    /*private ActionMode.Callback modeCallBack = new ActionMode.Callback() {
         // Called when the action mode is created; startActionMode() was called
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -196,5 +241,72 @@ public class SurveyFragment extends Fragment {
         public void onDestroyActionMode(ActionMode mode) {
             currentActionMode = null; // Clear current action mode
         }
-    };
+    };*/
+
+    public void popMenu(){
+        pd = new ProgressDialog(view.getContext());
+        pd.setContentView(R.layout.pop_menu);
+        pd.setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL);
+        pd.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
+        pd.setCancelable(false);
+        pd.setCanceledOnTouchOutside(true);
+        pd.show();
+    }
+    private void displayPopupWindow(View anchorView) {
+        PopupWindow popup = new PopupWindow(view.getContext());
+        View layout = getLayoutInflater().inflate(R.layout.pop_menu, null);
+        popup.setContentView(layout);
+        // Set content width and height
+        popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        // Closes the popup window when touch outside of it - when looses focus
+        popup.setOutsideTouchable(true);
+        popup.setFocusable(true);
+        // Show anchored to button
+        popup.setBackgroundDrawable(new BitmapDrawable());
+        popup.showAsDropDown(anchorView);
+    }
+
+
+    public boolean onMenuItemClick(MenuItem item) {
+        Toast.makeText(getContext(), "Selected Item: " +item.getTitle(), Toast.LENGTH_SHORT).show();
+        switch (item.getItemId()) {
+            case R.id.menu_start:
+                Toast.makeText(getContext(), "Start survey!", Toast.LENGTH_SHORT).show();
+                 // Action picked, so close the contextual menu
+                return true;
+            case R.id.menu_stop:
+                Toast.makeText(getContext(), "Stop survey!", Toast.LENGTH_SHORT).show();
+                 // Action picked, so close the contextual menu
+                return true;
+            case R.id.menu_edit:
+                Toast.makeText(getContext(), "Editing!", Toast.LENGTH_SHORT).show();
+                 // Action picked, so close the contextual menu
+                return true;
+            case R.id.menu_delete:
+                // Trigger the deletion here
+                 // Action picked, so close the contextual menu
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private void showPopupMenu(View v){
+        PopupMenu popupMenu = new PopupMenu(view.getContext(), v);
+        popupMenu.getMenuInflater().inflate(R.menu.action_survey_menu, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Toast.makeText(view.getContext(),
+                        item.toString(),
+                        Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+
+        popupMenu.show();
+    }
 }

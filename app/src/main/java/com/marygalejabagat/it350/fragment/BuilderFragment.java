@@ -226,4 +226,12 @@ public class BuilderFragment extends Fragment {
         pd.show();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter = new QuestionAdapter(view.getContext(), R.layout.questons_list, QuestionList, this);
+        QuestionList = new ArrayList<>();
+
+    }
+
 }

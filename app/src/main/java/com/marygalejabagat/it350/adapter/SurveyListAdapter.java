@@ -16,12 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.app.ProgressDialog;
 
 public class SurveyListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
     private List<Surveys> surveyItems;
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+    public static ProgressDialog pd;
 
     public SurveyListAdapter(Activity activity, List<Surveys> surveyItems) {
         this.activity = activity;
@@ -52,8 +54,6 @@ public class SurveyListAdapter extends BaseAdapter {
         if (convertView == null)
             convertView = inflater.inflate(R.layout.survey_list, null);
 
-        if (imageLoader == null)
-            imageLoader = AppController.getInstance().getImageLoader();
 
         TextView name = (TextView) convertView.findViewById(R.id.survey_name);
         TextView desc = (TextView) convertView.findViewById(R.id.survey_description);
@@ -61,7 +61,6 @@ public class SurveyListAdapter extends BaseAdapter {
         /*TextView genre = (TextView) convertView.findViewById(R.id.genre);
         */
 
-        // getting user data for the row
         Surveys m = surveyItems.get(position);
 
         // thumbnail image
@@ -78,5 +77,7 @@ public class SurveyListAdapter extends BaseAdapter {
 
         return convertView;
     }
+
+    
 
 }
