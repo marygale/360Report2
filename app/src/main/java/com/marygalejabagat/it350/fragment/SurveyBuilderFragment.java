@@ -1,6 +1,7 @@
 package com.marygalejabagat.it350.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -63,7 +64,7 @@ public class SurveyBuilderFragment extends Fragment {
    private TextView _txtPass;
    private ArrayList<String> selectedDim = new ArrayList<String>();
    private ArrayList<String> selectedGroup = new ArrayList<String>();
-   ProgressBar pb;
+   public static ProgressDialog pd;
 
 
 
@@ -186,15 +187,8 @@ public class SurveyBuilderFragment extends Fragment {
 
     public void saveQuestion(){
 
-         final LinearLayout rl = (LinearLayout) view.findViewById(R.id.login_layout);
-         final android.app.ProgressDialog pd = new android.app.ProgressDialog(view.getContext());
-          pd.setIndeterminate(false);
-          pd.setMessage("Fixing survey questions.....");
-          pd.setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL);
-          pd.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
-          pd.setCancelable(true);
-          pd.setMax(100);
-          pd.show();
+        final LinearLayout rl = (LinearLayout) view.findViewById(R.id.login_layout);
+        showProgressBar("Fixing survey questions.....");
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(view.getContext());
         String url = "https://mgsurvey.herokuapp.com/api/postSurvey";
@@ -317,6 +311,17 @@ public class SurveyBuilderFragment extends Fragment {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();*/
 
+
+    }
+    public void showProgressBar(String message){
+        pd = new ProgressDialog(view.getContext());
+        pd.setIndeterminate(false);
+        pd.setMessage(message);
+        pd.setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL);
+        pd.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
+        pd.setCancelable(true);
+        pd.setMax(100);
+        pd.show();
 
     }
 }

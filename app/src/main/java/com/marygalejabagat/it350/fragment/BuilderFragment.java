@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.Map;
 import android.widget.Toast;
 import android.widget.Button;
+import android.app.ProgressDialog;
 
 public class BuilderFragment extends Fragment {
 
@@ -56,6 +57,7 @@ public class BuilderFragment extends Fragment {
     LayoutInflater lf;
 
     public static ArrayList<HashMap<String, String>> checkQuestion = new ArrayList<HashMap<String, String>>();
+    public static ProgressDialog pd;
 
     public BuilderFragment() {
         // Required empty public constructor
@@ -105,6 +107,7 @@ public class BuilderFragment extends Fragment {
     }
 
     public void loadData(final String survey){
+        showProgressBar("Loading survey questions.....");
         String url = "https://mgsurvey.herokuapp.com/api/getQuestionsBySurvey";
         RequestQueue MyRequestQueue = Volley.newRequestQueue(view.getContext());
         StringRequest QuestionReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -112,7 +115,7 @@ public class BuilderFragment extends Fragment {
             public void onResponse(String response) {
                 Log.e("RESPONSE:::::::", response.toString());
                 try {
-
+                    pd.dismiss();
                     JSONArray jsonArray = new JSONArray(response);
                     for(int i = 0; i < jsonArray.length(); i++) {
                         Questions q = new Questions();
@@ -129,6 +132,7 @@ public class BuilderFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.e("ERROR", " ON GETQUESTIONSBYSURVYE");
+                    pd.dismiss();
                 }
 
             }
@@ -136,6 +140,7 @@ public class BuilderFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "error on post survey");
+                pd.dismiss();
             }
         }) {
             protected Map<String, String> getParams() {
@@ -157,14 +162,8 @@ public class BuilderFragment extends Fragment {
     }
     public void save(){
         final LinearLayout rl = (LinearLayout) view.findViewById(R.id.login_layout);
-        final android.app.ProgressDialog pd = new android.app.ProgressDialog(view.getContext());
-        pd.setIndeterminate(false);
-        pd.setMessage("Saving survey questions.....");
-        pd.setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL);
-        pd.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
-        pd.setCancelable(true);
-        pd.setMax(100);
-        pd.show();
+        /*final android.app.ProgressDialog pd = new android.app.ProgressDialog(view.getContext());*/
+        showProgressBar("Saving survey questions.....");
 
         String qURL = "https://mgsurvey.herokuapp.com/api/postSurveyQuestions";
         RequestQueue QuestionQue = Volley.newRequestQueue(view.getContext());
@@ -172,11 +171,9 @@ public class BuilderFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 Log.e("RESPONSE::SAVEQUESTIONS", response);
-
-                if(response == "true"){
-                    processNext();
-                    pd.dismiss();
-                }
+                processNext();
+                pd.dismiss();
+                /*if(response == "true"){}*/
 
             }
         }, new Response.ErrorListener() {
@@ -192,17 +189,15 @@ public class BuilderFragment extends Fragment {
                 for(int i = 0; i<checkQuestion.size(); i++){
 
                     n.put("questions["+i+"]", checkQuestion.get(i).toString());
-                    /*Log.e("OTHERS", String.valueOf(checkQuestion.get(i)));*/
                     Log.e("OTHERS", checkQuestion.get(i).toString());
                 }
 
                 return n;
-                /*return (Map<String, String>) checkQuestion;*/
             }
         };
         QuestionQue.add(QuestionRequest);
-        Log.e("GALEBUILDERFRAGMENT",checkQuestion.toString());
-        Log.e("QUESTIONADAPTER", "TO BUILDERFRAGMENT");
+        pd.dismiss();
+        Log.e("BUILDER::FRAGMENT",checkQuestion.toString());
     }
 
     public void processNext(){
@@ -220,5 +215,15 @@ public class BuilderFragment extends Fragment {
 
     }
 
+    public void showProgressBar(String message){
+        pd = new ProgressDialog(view.getContext());
+        pd.setIndeterminate(false);
+        pd.setMessage(message);
+        pd.setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL);
+        pd.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
+        pd.setCancelable(true);
+        pd.setMax(100);
+        pd.show();
+    }
 
 }

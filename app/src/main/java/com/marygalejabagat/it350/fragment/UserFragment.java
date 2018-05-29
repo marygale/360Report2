@@ -45,7 +45,7 @@ public class UserFragment extends Fragment {
     private CustomListAdapter adapter;
     private int progressStatus = 0;
     private Handler handler = new Handler();
-    private ProgressDialog pd;
+    public static ProgressDialog pd;
     private LinearLayout rl;
 
     View view;
@@ -83,17 +83,7 @@ public class UserFragment extends Fragment {
 
     public void loadUser(){
         final LinearLayout rl = (LinearLayout) view.findViewById(R.id.main_layout);
-
-        final ProgressDialog pd = new ProgressDialog(view.getContext());
-        pd.setIndeterminate(false);
-        pd.setMessage("Loading user list.....");
-        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-       /* pd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));*/
-        pd.setCancelable(true);
-        pd.setMax(100);
-        pd.show();
-
+        showProgressBar("Loading user list.....");
         JsonArrayRequest userReq = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -136,5 +126,17 @@ public class UserFragment extends Fragment {
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(userReq);
+    }
+
+    public void showProgressBar(String message){
+        pd = new ProgressDialog(view.getContext());
+        pd.setIndeterminate(false);
+        pd.setMessage(message);
+        pd.setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL);
+        pd.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
+        pd.setCancelable(true);
+        pd.setMax(100);
+        pd.show();
+
     }
 }
