@@ -38,7 +38,7 @@
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
         android:text="SAMPLE"
-        android:textColor="@color/jet"
+        android:textColor="@color/white"
         android:textSize="@dimen/title"
         android:textStyle="bold" />
 
