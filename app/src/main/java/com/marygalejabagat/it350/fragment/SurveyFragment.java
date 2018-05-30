@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Gravity;
@@ -78,9 +79,10 @@ public class SurveyFragment extends Fragment{
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getContext(), "Long CLICK", Toast.LENGTH_SHORT).show();
-                PopupMenu popup = new PopupMenu (view.getContext(),view, Gravity.CENTER);
+                showEditDialog();
+              /*  PopupMenu popup = new PopupMenu (view.getContext(),view, Gravity.CENTER);
                 popup.inflate(R.menu.action_survey_menu);
-                popup.show();
+                popup.show();*/
                /* if (currentActionMode != null) { return false; }
                 currentListItemIndex = position;
                 currentActionMode = startActionMode(modeCallBack);
@@ -388,4 +390,11 @@ public class SurveyFragment extends Fragment{
             currentActionMode = null; // Clear current action mode
         }
     };
+
+    private void showEditDialog() {
+        FragmentManager fm = getChildFragmentManager();
+        MenuFragment popMenuFragment = MenuFragment.newInstance("Some Title");
+        popMenuFragment.show(getActivity().getFragmentManager(), "po_menu");
+
+    }
 }

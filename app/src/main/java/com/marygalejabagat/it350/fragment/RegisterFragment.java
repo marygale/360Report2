@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.marygalejabagat.it350.R;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 public class RegisterFragment extends AppCompatActivity {
 
