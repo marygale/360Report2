@@ -168,8 +168,4 @@ public class SurveyFragment extends Fragment{
         /*pf.show(getActivity().getFragmentManager(), "po_menu");*/
     }
 
-    public void closeDialog(){
-        Log.e("CLOSEDIALOG", "CLOSE");
-        /*pf.dismiss();*/
-    }
 }

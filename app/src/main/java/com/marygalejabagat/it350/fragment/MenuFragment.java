@@ -66,6 +66,7 @@ public class MenuFragment extends DialogFragment {
         btnStop = (Button) view.findViewById(R.id.btnStop);
         btnEdit = (Button) view.findViewById(R.id.btnEdit);
         btnDelete = (Button) view.findViewById(R.id.btnDelete);
+        final MenuFragment mf = this;
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,30 +84,15 @@ public class MenuFragment extends DialogFragment {
                     e.printStackTrace();
                 }
                 fragment.setArguments(arguments);
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                fm.beginTransaction().replace(R.id.flContent, fragment).commit();
-              /*  getActivity().getFragmentManager().beginTransaction().addToBackStack(null);
-                FragmentManager fm = getActivity().getSupportFragmentManager();
+                /*FragmentManager fm = getActivity().getSupportFragmentManager();
                 fm.beginTransaction().replace(R.id.flContent, fragment).commit();*/
 
-                /*FragmentManager fragmentManager = getActivity().getSupportFragmentManager();;
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
 
-
-                fragmentTransaction.replace(R.id.flContent, fragment).commit();
-                fragmentTransaction.remove(fragment);*/
-
-                /*getActivity().getFragmentManager().beginTransaction().remove().commit();*/
-
-
-
-               /* FragmentManager fm1 = getFragmentManager();
-                SurveyFragment fragm = (SurveyFragment)fm1.findFragmentById(R.id.popMenu);
-                fragm.closeDialog();*/
-
-
-                /*SurveyFragment sf = (SurveyFragment) fm.findFragmentById(R.id.fragmentSurvey);
-                sf.closeDialog();*/
+                ft.remove(mf);
+                ft.replace(R.id.flContent, fragment);
+                ft.commit();
             }
 
         });
