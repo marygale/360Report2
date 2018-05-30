@@ -201,6 +201,8 @@ public class BuilderFragment extends Fragment {
     }
 
     public void processNext(){
+        adapter = new QuestionAdapter(view.getContext(), R.layout.questons_list, QuestionList, this);
+        QuestionList = new ArrayList<>();
         Fragment fragment = null;
         Class fragmentClass;
 
@@ -226,12 +228,12 @@ public class BuilderFragment extends Fragment {
         pd.show();
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
         adapter = new QuestionAdapter(view.getContext(), R.layout.questons_list, QuestionList, this);
         QuestionList = new ArrayList<>();
 
-    }
+    }*/
 
 }

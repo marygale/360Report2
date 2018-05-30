@@ -188,7 +188,7 @@ public class SurveyBuilderFragment extends Fragment {
     public void saveQuestion(){
 
         final LinearLayout rl = (LinearLayout) view.findViewById(R.id.login_layout);
-        showProgressBar("Fixing survey questions.....");
+        showProgressBar("Save survey questions.....");
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(view.getContext());
         String url = "https://mgsurvey.herokuapp.com/api/postSurvey";
