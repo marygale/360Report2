@@ -32,6 +32,7 @@ public class MenuFragment extends DialogFragment {
     private Button btnDelete;
     public SurveyFragment Surveyfragment;
     private MenuFragment frag;
+    /*private static String qId;*/
 
     public MenuFragment() {
         // Empty constructor is required for DialogFragment
@@ -49,11 +50,12 @@ public class MenuFragment extends DialogFragment {
     }
 */
 
-    public static MenuFragment newInstance(String title) {
+    public static MenuFragment newInstance(String qId) {
         MenuFragment frag = new MenuFragment();
         Bundle args = new Bundle();
-        args.putString("title", title);
+        args.putString("id", qId);
         frag.setArguments(args);
+
         return frag;
     }
 
@@ -84,9 +86,8 @@ public class MenuFragment extends DialogFragment {
                     e.printStackTrace();
                 }
                 fragment.setArguments(arguments);
-                /*FragmentManager fm = getActivity().getSupportFragmentManager();
-                fm.beginTransaction().replace(R.id.flContent, fragment).commit();*/
-
+                String tagName = getArguments().getString("id");
+                Log.e("MENUFRAGMENT ", tagName);
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
 

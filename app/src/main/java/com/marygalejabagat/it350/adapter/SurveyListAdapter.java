@@ -11,6 +11,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,20 +56,18 @@ public class SurveyListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.survey_list, null);
 
 
-        TextView name = (TextView) convertView.findViewById(R.id.survey_name);
-        TextView desc = (TextView) convertView.findViewById(R.id.survey_description);
-        TextView created = (TextView) convertView.findViewById(R.id.created);
-        /*TextView genre = (TextView) convertView.findViewById(R.id.genre);
-        */
+        TextView name = convertView.findViewById(R.id.survey_name);
+        TextView desc = convertView.findViewById(R.id.survey_description);
+        TextView created = convertView.findViewById(R.id.created);
 
         Surveys m = surveyItems.get(position);
 
-        // thumbnail image
-        //thumbNail.setImageUrl(m.getThumbnailUrl(), imageLoader);
-
-        // name
         name.setText(m.getName());
+        name.setTag(m.getId());
         created.setText(m.getCreated());
+
+        Log.e("LISTAPAAGGG", String.valueOf(m.getId()));
+
 
         // description
         if(desc.length() > 0){

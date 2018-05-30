@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -51,9 +52,6 @@ public class SurveyFragment extends Fragment{
     private ListView listView;
     private SurveyListAdapter adapter;
     public static ProgressDialog pd;
-    private ActionMode currentActionMode;
-    private int currentListItemIndex;
-    private Button btnStart;
     public static MenuFragment pf;
 
     View view;
@@ -79,17 +77,17 @@ public class SurveyFragment extends Fragment{
         listView = (ListView) view.findViewById(R.id.ListSurvey);
         adapter = new SurveyListAdapter(getActivity(), survey_list);
         listView.setAdapter(adapter);
+        Log.e(TAG, "LOGS here");
+        loadSurvey();
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "Long CLICK", Toast.LENGTH_SHORT).show();
-                showEditDialog();
+                TextView name = view.findViewById(R.id.survey_name);
+                String TagName = name.getTag().toString();
+                showEditDialog(TagName);
                 return true;
             }
         });
-
-        Log.e(TAG, "LOGS here");
-        loadSurvey();
         return view;
     }
 
@@ -120,6 +118,7 @@ public class SurveyFragment extends Fragment{
                                     survey.setName(obj.getString("name"));
                                     survey.setDescription(obj.getString("description"));
                                     survey.setCreated(obj.getString("created"));
+                                    survey.setId(obj.getInt("id"));
                                     survey_list.add(survey);
 
 
@@ -158,11 +157,11 @@ public class SurveyFragment extends Fragment{
 
 
 
-    private void showEditDialog() {
+    private void showEditDialog(String TagName) {
         /*FragmentManager fm = getChildFragmentManager();*/
         /*MenuFragment pf = MenuFragment.newInstance("Some Title");*/
         /*pf = MenuFragment.newInstance("Some Title");*/
-        pf = MenuFragment.newInstance("Some Title");
+        pf = MenuFragment.newInstance(TagName);
         pf.show(getActivity().getSupportFragmentManager(), "po_menu");
 
         /*pf.show(getActivity().getFragmentManager(), "po_menu");*/
