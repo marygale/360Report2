@@ -54,6 +54,7 @@ public class SurveyFragment extends Fragment{
     private ActionMode currentActionMode;
     private int currentListItemIndex;
     private Button btnStart;
+    public static MenuFragment pf;
 
     View view;
     View menuView;
@@ -159,11 +160,16 @@ public class SurveyFragment extends Fragment{
 
     private void showEditDialog() {
         /*FragmentManager fm = getChildFragmentManager();*/
-        MenuFragment pf = MenuFragment.newInstance("Some Title");
-        pf.show(getActivity().getFragmentManager(), "po_menu");
+        /*MenuFragment pf = MenuFragment.newInstance("Some Title");*/
+        /*pf = MenuFragment.newInstance("Some Title");*/
+        pf = MenuFragment.newInstance("Some Title");
+        pf.show(getActivity().getSupportFragmentManager(), "po_menu");
 
+        /*pf.show(getActivity().getFragmentManager(), "po_menu");*/
+    }
 
-
-
+    public void closeDialog(){
+        Log.e("CLOSEDIALOG", "CLOSE");
+        /*pf.dismiss();*/
     }
 }
