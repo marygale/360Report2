@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.marygalejabagat.it350.R;
 
@@ -27,6 +28,8 @@ public class StartFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    View view;
+    TextView _txtName;
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,8 +67,12 @@ public class StartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_start, container, false);
+        view = inflater.inflate(R.layout.fragment_start, container, false);
+        Bundle arguments = getArguments();
+        String survey_id = arguments.getString("survey_id");
+        _txtName = view.findViewById(R.id.hello);
+        _txtName.setText(survey_id);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

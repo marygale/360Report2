@@ -72,12 +72,14 @@ public class MenuFragment extends DialogFragment {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("START SURVEY", "THIS");
                 Fragment fragment = null;
                 Class fragmentClass;
 
-                 Bundle arguments = new Bundle();
-                arguments.putString("survey", "test");
+                String tagName = getArguments().getString("id");
+                Log.e("START SURVEY", tagName);
+
+                Bundle arguments = new Bundle();
+                arguments.putString("survey_id", tagName);
 
                 fragmentClass = StartFragment.class;
                 try {
@@ -86,8 +88,6 @@ public class MenuFragment extends DialogFragment {
                     e.printStackTrace();
                 }
                 fragment.setArguments(arguments);
-                String tagName = getArguments().getString("id");
-                Log.e("MENUFRAGMENT ", tagName);
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
 
