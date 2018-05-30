@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <Button android:id="@+id/btnStartService"
+    <Button android:id="@+id/btnStart"
         android:layout_width="270dp"
         android:layout_height="wrap_content"
         android:text="START SURVEY"/>
