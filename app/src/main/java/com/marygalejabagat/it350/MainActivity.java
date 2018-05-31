@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -27,6 +28,7 @@ import com.marygalejabagat.it350.adapter.CustomListAdapter;
 import com.marygalejabagat.it350.fragment.SurveyBuilderFragment;
 import com.marygalejabagat.it350.fragment.SurveyFragment;
 import com.marygalejabagat.it350.fragment.UserFragment;
+import com.marygalejabagat.it350.helper.AppPreference;
 import com.marygalejabagat.it350.model.User;
 
 import java.util.ArrayList;
@@ -64,9 +66,12 @@ public class MainActivity extends AppCompatActivity {
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = setupDrawerToggle();
         mDrawer.addDrawerListener(drawerToggle);
+        if(!AppPreference.getInstance(getApplicationContext()).getIsLogin()){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
 
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+
 
     }
 
@@ -103,6 +108,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.user_menu:
                 fragmentClass = UserFragment.class;
                 break;
+            case R.id.logout:
+                AppPreference.getInstance(getApplicationContext()).setIsLogin(false);
+                fragmentClass = null;
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
             default:
                 fragmentClass = UserFragment.class;
         }
@@ -116,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+
 
         // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
@@ -134,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+
         }
     }
 
@@ -177,6 +192,13 @@ public class MainActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggles
         drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    public void onLogout(){
+        AppPreference.getInstance(getApplicationContext()).setIsLogin(false);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
 

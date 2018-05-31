@@ -8,11 +8,8 @@ import org.json.JSONObject;
 
 import java.util.Set;
 
-/*import au.com.iremit.iremitapp.Constants.Preferences;*/
+import com.marygalejabagat.it350.constants.Preferences;
 
-/**
- * Created by rritachi on 19/02/16.
- */
 public class AppPreference {
     protected static final String PREFERENCE_NAME = "share_preference";
     private static AppPreference singleton = null;
@@ -83,7 +80,7 @@ public class AppPreference {
         return sharedPreferences.getBoolean(key, defaultValue);
     }
 
-   /* public void setIsLogin(boolean isLogin) {
+    public void setIsLogin(boolean isLogin) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(Preferences.PREF_IS_LOGIN, isLogin);
         editor.apply();
@@ -91,7 +88,7 @@ public class AppPreference {
 
     public Boolean getIsLogin() {
         return sharedPreferences.getBoolean(Preferences.PREF_IS_LOGIN, false);
-    }*/
+    }
 
     public void setStringSetPreferences(String key, Set<String> value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();

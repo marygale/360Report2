@@ -1,5 +1,6 @@
 package com.marygalejabagat.it350;
 
+import com.marygalejabagat.it350.helper.AppPreference;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.marygalejabagat.it350.helper.AppPreference;
 import com.marygalejabagat.it350.model.User;
 
 import org.json.JSONArray;
@@ -44,7 +46,6 @@ public class LoginActivity extends AppCompatActivity  {
     private Handler handler = new Handler();
     public static final String MyPREFERENCES = "Active User" ;
     SharedPreferences sp;
-    private Session session;
 
     @BindView(R.id.input_email) EditText _emailText;
     @BindView(R.id.input_password) EditText _passwordText;
@@ -60,15 +61,15 @@ public class LoginActivity extends AppCompatActivity  {
         txtActiveUser = (TextView) findViewById(R.id.activeUser);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        session = new Session(this);
+        /*session = new Session(this);
         if(session.loggedin()){
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
             finish();
-        }
+        }*/
 
         ButterKnife.bind(this);
         Toast.makeText(getApplicationContext(), "Login Activity ",   Toast.LENGTH_LONG).show();
-        sp = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+       /* sp = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);*/
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -77,10 +78,10 @@ public class LoginActivity extends AppCompatActivity  {
             }
         });
 
-        if(session.loggedin()){
+       /* if(session.loggedin()){
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
             finish();
-        }
+        }*/
 
         _signupLink.setOnClickListener(new View.OnClickListener() {
 
@@ -218,18 +219,10 @@ public class LoginActivity extends AppCompatActivity  {
                         user.setFirstName(result.getString("first_name"));
                         user.setLastName(result.getString("last_name"));
 
-                        /*SharedPreferences.Editor editor = sp.edit();
+                        AppPreference.getInstance(getApplicationContext()).setIsLogin(true);
+                        startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                        finish();
 
-                        editor.putString("activeEmail", result.getString("email_address"));
-                        editor.putString("activeRole", result.getString("role_name"));
-                        editor.putString("activeFname", result.getString("first_name"));
-                        editor.putString("activeLname", result.getString("last_name"));
-                        editor.commit();*/
-
-                        session.setLoggedin(true);
-
-
-                                //txtActiveUser
                         pd.dismiss();
                         _loginButton.setEnabled(true);
                         finish();
