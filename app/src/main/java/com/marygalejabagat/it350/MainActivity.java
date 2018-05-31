@@ -70,6 +70,16 @@ public class MainActivity extends AppCompatActivity {
         if(!AppPreference.getInstance(getApplicationContext()).getIsLogin()){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+        }else{
+            Fragment fragment = null;
+            Class fragmentClass = SurveyFragment.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
         }
         /*AppPreference.getInstance(getApplicationContext()).getStringPreferences(CURRENT_USER);*/
 

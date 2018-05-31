@@ -5,7 +5,8 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <Button android:id="@+id/btnView"
+    <Button
+        android:id="@+id/btnView"
         android:layout_width="270dp"
         android:layout_height="wrap_content"
         android:visibility="gone"

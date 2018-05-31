@@ -84,7 +84,7 @@ public class SurveyFragment extends Fragment{
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView name = view.findViewById(R.id.survey_name);
                 TextView desc = view.findViewById(R.id.survey_description);
-                String TagName = name.getTag().toString();
+                int TagName = (int) name.getTag();
                 int status = (int) desc.getTag();
                 showEditDialog(TagName, status); Log.e("SURVEY STATUS", String.valueOf(status));
                 return true;
@@ -98,6 +98,7 @@ public class SurveyFragment extends Fragment{
         inflater.inflate(R.menu.drawer_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
 
     public void loadSurvey(){
         final LinearLayout rl = (LinearLayout) view.findViewById(R.id.main_layout);
@@ -161,7 +162,7 @@ public class SurveyFragment extends Fragment{
 
 
 
-    private void showEditDialog(String TagName, int status) {
+    private void showEditDialog(int TagName, int status) {
         /*FragmentManager fm = getChildFragmentManager();*/
         /*MenuFragment pf = MenuFragment.newInstance("Some Title");*/
         /*pf = MenuFragment.newInstance("Some Title");*/
