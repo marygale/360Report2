@@ -5,5 +5,6 @@ import com.marygalejabagat.it350.model.Surveys;
 
 public class Preferences {
     public static final String PREF_IS_LOGIN = "true";
-    public static final Surveys SELECTED_SURVEY = new Surveys();;
+    public static final Surveys SELECTED_SURVEY = new Surveys();
+    public static final String CURRENT_USER = "";
 }

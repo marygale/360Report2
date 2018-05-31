@@ -18,9 +18,21 @@ import android.app.Fragment;
 import android.app.FragmentManager;*/
 
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.marygalejabagat.it350.R;
+import com.marygalejabagat.it350.app.AppController;
+import com.marygalejabagat.it350.model.Surveys;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 /*import com.marygalejabagat.it350.fragment.SurveyFragment;*/
 
 public class MenuFragment extends DialogFragment {
@@ -30,8 +42,10 @@ public class MenuFragment extends DialogFragment {
     private Button btnStop;
     private Button btnEdit;
     private Button btnDelete;
+    private Button btnView;
     public SurveyFragment Surveyfragment;
     private MenuFragment frag;
+    private Bundle arguments;
     /*private static String qId;*/
 
     public MenuFragment() {
@@ -40,20 +54,12 @@ public class MenuFragment extends DialogFragment {
         // Use `newInstance` instead as shown below
     }
 
-   /* public MenuFragment newInstance(String title, SurveyFragment fragment) {
-        MenuFragment frag = new MenuFragment();
-        Bundle args = new Bundle();
-        args.putString("title", title);
-        this.Surveyfragment = fragment;
-        frag.setArguments(args);
-        return frag;
-    }
-*/
 
-    public static MenuFragment newInstance(String qId) {
+    public static MenuFragment newInstance(String qId, int status) {
         MenuFragment frag = new MenuFragment();
         Bundle args = new Bundle();
         args.putString("id", qId);
+        args.putInt("status", status);
         frag.setArguments(args);
 
         return frag;
@@ -68,6 +74,16 @@ public class MenuFragment extends DialogFragment {
         btnStop = (Button) view.findViewById(R.id.btnStop);
         btnEdit = (Button) view.findViewById(R.id.btnEdit);
         btnDelete = (Button) view.findViewById(R.id.btnDelete);
+        btnView = (Button) view.findViewById(R.id.btnView);
+        int status = getArguments().getInt("status");
+        if(status == 0){ //status is stop
+            Log.e("STATUS ", "status is stop");
+            btnStart.setVisibility(View.VISIBLE);
+        }else{ //status is start
+            Log.e("STATUS ", "status is start");
+            btnStart.setVisibility(View.GONE);
+            btnView.setVisibility(View.VISIBLE);
+        }
         final MenuFragment mf = this;
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,10 +94,12 @@ public class MenuFragment extends DialogFragment {
                 String tagName = getArguments().getString("id");
                 Log.e("START SURVEY", tagName);
 
-                Bundle arguments = new Bundle();
+                arguments = new Bundle();
                 arguments.putString("survey_id", tagName);
+                arguments.putInt("status", getArguments().getInt("status"));
+                start_stop(tagName);
 
-                fragmentClass = StartFragment.class;
+                /*fragmentClass = StartFragment.class;
                 try {
                     fragment = (Fragment) fragmentClass.newInstance();
                 } catch (Exception e) {
@@ -93,7 +111,7 @@ public class MenuFragment extends DialogFragment {
 
                 ft.remove(mf);
                 ft.replace(R.id.flContent, fragment);
-                ft.commit();
+                ft.commit();*/
             }
 
         });
@@ -154,5 +172,47 @@ public class MenuFragment extends DialogFragment {
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
     }*/
 
+    public void start_stop(final String TagName){
+        //getSurveyById
+        String url = "https://mgsurvey.herokuapp.com/api/updateSurveyStatus";
+        final JsonArrayRequest userReq = new JsonArrayRequest(url,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.e("geSurveyById RESULT", response.toString());
 
+                        // Parsing json
+                        if(response.length() > 0){
+                            for (int i = 0; i < response.length(); i++) {
+                                try {
+
+                                    JSONObject obj = response.getJSONObject(i);
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.e("geSurveyById", error.getMessage());
+
+                    }
+                }){
+                    protected Map<String, String> getParams() {
+                        Map<String, String> Survey = new HashMap<String, String>();
+                        Survey.put("survey_id", TagName);
+                        return Survey;
+                    }
+                };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(userReq);
+
+    }
 }

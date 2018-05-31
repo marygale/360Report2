@@ -83,8 +83,10 @@ public class SurveyFragment extends Fragment{
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView name = view.findViewById(R.id.survey_name);
+                TextView desc = view.findViewById(R.id.survey_description);
                 String TagName = name.getTag().toString();
-                showEditDialog(TagName);
+                int status = (int) desc.getTag();
+                showEditDialog(TagName, status); Log.e("SURVEY STATUS", String.valueOf(status));
                 return true;
             }
         });
@@ -119,6 +121,8 @@ public class SurveyFragment extends Fragment{
                                     survey.setDescription(obj.getString("description"));
                                     survey.setCreated(obj.getString("created"));
                                     survey.setId(obj.getInt("id"));
+                                    survey.setStatus(obj.getInt("status"));
+                                    survey.setUser_id(obj.getInt("user_id"));
                                     survey_list.add(survey);
 
 
@@ -157,11 +161,11 @@ public class SurveyFragment extends Fragment{
 
 
 
-    private void showEditDialog(String TagName) {
+    private void showEditDialog(String TagName, int status) {
         /*FragmentManager fm = getChildFragmentManager();*/
         /*MenuFragment pf = MenuFragment.newInstance("Some Title");*/
         /*pf = MenuFragment.newInstance("Some Title");*/
-        pf = MenuFragment.newInstance(TagName);
+        pf = MenuFragment.newInstance(TagName, status);
         pf.show(getActivity().getSupportFragmentManager(), "po_menu");
 
         /*pf.show(getActivity().getFragmentManager(), "po_menu");*/

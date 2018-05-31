@@ -33,6 +33,7 @@ import com.marygalejabagat.it350.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.marygalejabagat.it350.constants.Preferences;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
-
+        /*AppPreference.getInstance(getApplicationContext()).getStringPreferences(CURRENT_USER);*/
 
 
     }

@@ -61,15 +61,8 @@ public class LoginActivity extends AppCompatActivity  {
         txtActiveUser = (TextView) findViewById(R.id.activeUser);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        /*session = new Session(this);
-        if(session.loggedin()){
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
-            finish();
-        }*/
-
         ButterKnife.bind(this);
         Toast.makeText(getApplicationContext(), "Login Activity ",   Toast.LENGTH_LONG).show();
-       /* sp = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);*/
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -78,10 +71,6 @@ public class LoginActivity extends AppCompatActivity  {
             }
         });
 
-       /* if(session.loggedin()){
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
-            finish();
-        }*/
 
         _signupLink.setOnClickListener(new View.OnClickListener() {
 
@@ -220,6 +209,8 @@ public class LoginActivity extends AppCompatActivity  {
                         user.setLastName(result.getString("last_name"));
 
                         AppPreference.getInstance(getApplicationContext()).setIsLogin(true);
+                        /*AppPreference.getInstance(getApplicationContext()).setCurrentUser("id", result.getInt("user_id"));*/
+                        /*AppPreference.getInstance(getApplicationContext()).setString(CURRENT_USER, "name value" );*/
                         startActivity(new Intent(LoginActivity.this,MainActivity.class));
                         finish();
 

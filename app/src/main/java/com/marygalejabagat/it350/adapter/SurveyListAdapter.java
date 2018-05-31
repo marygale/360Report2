@@ -64,9 +64,10 @@ public class SurveyListAdapter extends BaseAdapter {
 
         name.setText(m.getName());
         name.setTag(m.getId());
+        desc.setTag(m.getStatus());
         created.setText(m.getCreated());
 
-        Log.e("LISTAPAAGGG", String.valueOf(m.getId()));
+        Log.e("LISTAPAAGGG", String.valueOf(m.getStatus()));
 
 
         // description

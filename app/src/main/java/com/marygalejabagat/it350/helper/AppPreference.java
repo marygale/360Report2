@@ -96,6 +96,16 @@ public class AppPreference {
         editor.apply();
     }
 
+    public void setCurrentUser(String key, int value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
+
+    public int getCurrentUser(String key, int defaultValue) {
+        return sharedPreferences.getInt(key, defaultValue);
+    }
+
     public Set<String> getStringSetPreferences(String key, Set<String> defaultValue) {
         return sharedPreferences.getStringSet(key, defaultValue);
     }
