@@ -102,4 +102,12 @@ public class Surveys {
     public void setIs_deleted(String is_deleted) {
         this.is_deleted = is_deleted;
     }
+
+    public String getModified() {
+        return modified;
+    }
+
+    public void setModified(String modified) {
+        this.modified = modified;
+    }
 }

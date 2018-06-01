@@ -4,9 +4,12 @@ package com.marygalejabagat.it350.adapter;
 import com.android.volley.toolbox.ImageLoader;
 import com.marygalejabagat.it350.R;
 import com.marygalejabagat.it350.app.AppController;
+import com.marygalejabagat.it350.fragment.SurveyFragment;
 import com.marygalejabagat.it350.model.Surveys;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -25,10 +28,13 @@ public class SurveyListAdapter extends BaseAdapter {
     private List<Surveys> surveyItems;
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
     public static ProgressDialog pd;
+    private final SurveyFragment fragment;
+    private ArrayList<HashMap<String, String>> selectedSurvey = new ArrayList<HashMap<String, String>>();
 
-    public SurveyListAdapter(Activity activity, List<Surveys> surveyItems) {
+    public SurveyListAdapter(Activity activity, List<Surveys> surveyItems, SurveyFragment fragment) {
         this.activity = activity;
         this.surveyItems = surveyItems;
+        this.fragment = fragment;
     }
 
     @Override
@@ -67,14 +73,22 @@ public class SurveyListAdapter extends BaseAdapter {
         desc.setTag(m.getStatus());
         created.setText(m.getCreated());
 
-        Log.e("LISTAPAAGGG", String.valueOf(m.getStatus()));
+        Log.e("SURVEYLISTADAPTER", String.valueOf(m.getStatus()));
+        Log.e("SURVEYLISTADAPTER", String.valueOf(m.getStatus()));
 
 
         // description
         if(desc.length() > 0){
             desc.setText(m.getDescription());
         }
+        Object surveyId = name.getTag();
+        Object status = desc.getTag();
 
+        HashMap<String, String> en = new HashMap<String, String>();
+        en.put("status", status.toString());
+        en.put("surveyId", surveyId.toString());
+        selectedSurvey.add(en);
+        fragment.getSelectedSurvey(selectedSurvey);
         return convertView;
     }
 

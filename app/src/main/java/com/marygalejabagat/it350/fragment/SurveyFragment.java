@@ -1,36 +1,24 @@
 package com.marygalejabagat.it350.fragment;
 
 import android.app.ProgressDialog;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.ActionMode;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupMenu;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.marygalejabagat.it350.MainActivity;
 import com.marygalejabagat.it350.R;
 import com.marygalejabagat.it350.adapter.SurveyListAdapter;
 import com.marygalejabagat.it350.app.AppController;
@@ -41,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -53,7 +42,7 @@ public class SurveyFragment extends Fragment{
     private SurveyListAdapter adapter;
     public static ProgressDialog pd;
     public static MenuFragment pf;
-
+    public static ArrayList<HashMap<String, String>> selectedSurvey = new ArrayList<HashMap<String, String>>();
     View view;
     View menuView;
 
@@ -75,7 +64,7 @@ public class SurveyFragment extends Fragment{
         menuView = inflater.inflate(R.layout.pop_menu, container, false);
 
         listView = (ListView) view.findViewById(R.id.ListSurvey);
-        adapter = new SurveyListAdapter(getActivity(), survey_list);
+        adapter = new SurveyListAdapter(getActivity(), survey_list, this);
         listView.setAdapter(adapter);
         Log.e(TAG, "LOGS here");
         loadSurvey();
@@ -86,7 +75,7 @@ public class SurveyFragment extends Fragment{
                 TextView desc = view.findViewById(R.id.survey_description);
                 int TagName = (int) name.getTag();
                 int status = (int) desc.getTag();
-                showEditDialog(TagName, status); Log.e("SURVEY STATUS", String.valueOf(status));
+                showEditDialog(TagName, status); Log.e("SURVEY ID SELECTED", String.valueOf(TagName));
                 return true;
             }
         });
@@ -125,8 +114,6 @@ public class SurveyFragment extends Fragment{
                                     survey.setStatus(obj.getInt("status"));
                                     survey.setUser_id(obj.getInt("user_id"));
                                     survey_list.add(survey);
-
-
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -166,10 +153,14 @@ public class SurveyFragment extends Fragment{
         /*FragmentManager fm = getChildFragmentManager();*/
         /*MenuFragment pf = MenuFragment.newInstance("Some Title");*/
         /*pf = MenuFragment.newInstance("Some Title");*/
-        pf = MenuFragment.newInstance(TagName, status);
+        pf = MenuFragment.newInstance(TagName, status, selectedSurvey);
         pf.show(getActivity().getSupportFragmentManager(), "po_menu");
 
         /*pf.show(getActivity().getFragmentManager(), "po_menu");*/
+    }
+
+    public static void getSelectedSurvey(ArrayList<HashMap<String, String>> adapterMap){
+        selectedSurvey = adapterMap;
     }
 
 }
