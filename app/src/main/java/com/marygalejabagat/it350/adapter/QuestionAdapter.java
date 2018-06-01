@@ -94,26 +94,12 @@ public class QuestionAdapter  extends ArrayAdapter<Questions> {
                 fragment.saveData(selectedQuestion);
                 Log.e("QUESTIONADAPTER :: ", selectedQuestion.toString());
 
-               /* if(list.get(pos).getSelected()){
-                    list.get(pos).setSelected(false);
-                }else{
-                    list.get(pos).setSelected(true);
-                }*/
-
 
 
             }
 
         });
 
-        /*btnSubmit = (Button) convertView.findViewById(R.id.btnSubmit);
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Log.e("Submit button :: ", selectedQuestion.toString());
-            }
-        });*/
         return convertView;
 
     }
@@ -130,22 +116,7 @@ public class QuestionAdapter  extends ArrayAdapter<Questions> {
         return position;
     }
 
-    /*@Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (inflater == null)
-            inflater = (LayoutInflater) activity
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (convertView == null)
-            convertView = inflater.inflate(R.layout.questons_list, null);
 
-        TextView name = (TextView) convertView.findViewById(R.id.dimensions);
-        CheckBox checkQuestion = (CheckBox) convertView.findViewById(R.id.checkQuestion);
-
-        Questions q = q;
-        name.setText(q.getDimensionName());
-        checkQuestion.setText(q.getName());
-        return convertView;
-    }*/
 
     public void processQuestion(){
 

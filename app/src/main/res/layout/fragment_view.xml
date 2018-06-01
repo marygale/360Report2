@@ -113,34 +113,39 @@
                 android:gravity="left"
                 android:textSize="14dip"/>
 
-            <CheckBox
-                android:id="@+id/chckTeacher"
+            <LinearLayout android:id="@+id/chkboxlyt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Teachers" />
+                android:orientation="vertical">
 
-            <CheckBox
-                android:id="@+id/chckStaff"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Support Staff" />
+                <!--<CheckBox
+                    android:id="@+id/chckTeacher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Teachers" />
 
-            <CheckBox
-                android:id="@+id/chckAdmin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Building and District Admin" />
+                <CheckBox
+                    android:id="@+id/chckStaff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Support Staff" />
 
-            <CheckBox
-                android:id="@+id/chckParent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Parent" />
+                <CheckBox
+                    android:id="@+id/chckAdmin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Building and District Admin" />
 
+                <CheckBox
+                    android:id="@+id/chckParent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Parent" />-->
+            </LinearLayout>
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_next2"
                 android:layout_width="fill_parent"

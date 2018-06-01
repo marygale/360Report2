@@ -13,13 +13,14 @@ public class Questions {
     private int is_deleted;
     private String dimensionName;
     private boolean isSelected;
+    private int group;
 
 
     public Questions(){
 
     }
 
-    public Questions(int id, String name, int dimension, int with_options, int is_calculating, String created, String modified, String dimension_name, boolean isSelected, int surveyId){
+    public Questions(int id, String name, int dimension, int with_options, int is_calculating, String created, String modified, String dimension_name, boolean isSelected, int surveyId, int group){
         this.id = id;
         this.name = name;
         this.dimension = dimension;
@@ -30,6 +31,7 @@ public class Questions {
         this.dimensionName = dimension_name;
         this.isSelected = isSelected;
         this.surveyId = surveyId;
+        this.group = group;
 
     }
 
@@ -120,5 +122,13 @@ public class Questions {
 
     public void setSurveyId(int id) {
         this.surveyId = id;
+    }
+
+    public int getGroup() {
+        return group;
+    }
+
+    public void setGroup(int group) {
+        this.group = group;
     }
 }
