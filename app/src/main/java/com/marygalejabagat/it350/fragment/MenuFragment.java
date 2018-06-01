@@ -306,31 +306,12 @@ public class MenuFragment extends DialogFragment {
                 Log.e("RES::GETSURVEYBYID", response.toString());
                 try{
                     JSONArray jsonArray = new JSONArray(response);
-                    for(int i = 0; i < jsonArray.length(); i++) {
-                        Surveys s = new Surveys();
-                        JSONObject obj = jsonArray.getJSONObject(i);
-                        s.setId(obj.getInt("id"));
-                        s.setName(obj.getString("name"));
-                        s.setDescription(obj.getString("description"));
-                        s.setStatus(obj.getInt("status"));
-                        s.setEmail_verification_on(obj.getInt("email_verification_on"));
-                        s.setUser_id(obj.getInt("user_id"));
-                        s.setOpen(obj.getInt("open"));
-                        s.setModified(obj.getString("modified"));
-                        s.setCreated(obj.getString("created"));
-                        surveyView.add(s);
-                    }
+                    viewRedirect(ViewFragment.class, jsonArray);
 
-
-
-                    Log.e("getSurveyById", surveyView.toString());
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
                 Log.e("VIEW getSurveyById", surveyView.toString());
-                viewRedirect(ViewFragment.class);
-                /*pd.dismiss();
-                redirect(StartFragment.class);*/
             }
         }, new Response.ErrorListener() {
             @Override
@@ -350,10 +331,10 @@ public class MenuFragment extends DialogFragment {
         SurveyQue.add(getSurvey);
     }
 
-    public void viewRedirect(Class fragmentClass){
-        Log.e("VIEWREDIRECT", surveyView.toString());
+    public void viewRedirect(Class fragmentClass, JSONArray res){
+        Log.e("VIEWREDIRECT", res.toString());
         arguments = new Bundle();
-        arguments.putString("survey", surveyView.toString());
+        arguments.putString("survey", res.toString());
 
         Fragment fragment = null;
         try {
