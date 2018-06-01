@@ -4,12 +4,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.marygalejabagat.it350.R;
@@ -31,8 +34,12 @@ public class ViewFragment extends Fragment {
     private String mParam2;
     private TextView _txtName;
     private TextView _txtDesc;
+    private TextView _txtError;
     private Button _btnNxt;
+    private Button _btnNxt2;
     private EditText _inPass;
+    private LinearLayout _layout;
+    private LinearLayout _layout2;
     public static String dbPassword;
 
     View view;
@@ -60,7 +67,11 @@ public class ViewFragment extends Fragment {
         _txtName = view.findViewById(R.id.surveyName);
         _txtDesc = view.findViewById(R.id.description);
         _btnNxt = view.findViewById(R.id.btn_next);
+        _btnNxt2 = view.findViewById(R.id.btn_next2);
         _inPass = view.findViewById(R.id.input_password);
+        _txtError = view.findViewById(R.id.txtError);
+        _layout = view.findViewById(R.id.step1);
+        _layout2 = view.findViewById(R.id.step2);
         Bundle args = getArguments();
         String s= args.getString("survey");
 
@@ -90,6 +101,13 @@ public class ViewFragment extends Fragment {
                 checkPass();
             }
         });
+        _btnNxt2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         Log.e("VIEWFRAGMENT:ONCREATE", s);
         return view;
@@ -111,8 +129,12 @@ public class ViewFragment extends Fragment {
         String enteredPass = _inPass.getText().toString();
         Log.e("ENTEREDPASS", enteredPass);
         Log.e("DBPASS", dbPassword);
-        if(enteredPass == dbPassword){
-
+        if(enteredPass.equals(dbPassword)){Log.e("SAME", dbPassword);
+            _txtError.setVisibility(View.GONE);
+            _layout.setVisibility(View.GONE);
+            _layout2.setVisibility(View.VISIBLE);
+        }else{
+            _txtError.setVisibility(View.VISIBLE);
         }
 
     }

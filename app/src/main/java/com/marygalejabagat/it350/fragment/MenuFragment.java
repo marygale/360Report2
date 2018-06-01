@@ -105,21 +105,6 @@ public class MenuFragment extends DialogFragment {
                 /*String tagName = getArguments().getString("id");*/
                 Log.e("START SURVEY", String.valueOf(tagId));
                 start_stop();
-                /*start_stop(tagId, surveyStatus);*/
-
-                /*fragmentClass = StartFragment.class;
-                try {
-                    fragment = (Fragment) fragmentClass.newInstance();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                fragment.setArguments(arguments);
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-
-                ft.remove(mf);
-                ft.replace(R.id.flContent, fragment);
-                ft.commit();*/
             }
 
         });
@@ -130,29 +115,6 @@ public class MenuFragment extends DialogFragment {
 
                 Log.e("VIEW SURVEY", String.valueOf(tagId));
                 getSurveyById(tagId);
-                /*Log.e("VIEWSURVEYENTRY", selectedSurvey.toString());
-
-                String tagName = getArguments().getString("id");
-                Log.e("VIEW SURVEY", tagName);
-                getSurveyById();*/
-                /*arguments = new Bundle();
-                arguments.putString("survey_id", tagName);
-                arguments.putInt("status", getArguments().getInt("status"));
-                arguments.putString("selected", surveyEntry.toString());*/
-
-                /*fragmentClass = StartFragment.class;
-                try {
-                    fragment = (Fragment) fragmentClass.newInstance();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                fragment.setArguments(arguments);
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-
-                ft.remove(mf);
-                ft.replace(R.id.flContent, fragment);
-                ft.commit();*/
             }
 
         });

@@ -15,9 +15,23 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/step1"
             android:paddingTop="30dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/txtError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Invalid Password"
+                    android:visibility="gone"
+                    android:textColor="@color/red"/>
+            </android.support.design.widget.TextInputLayout>
+
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -71,11 +85,73 @@
                 android:layout_marginTop="24dp"
                 android:padding="12dp"
                 android:text="Proceed" />
-
-
-
         </LinearLayout>
+
     </ScrollView>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/step2"
+        android:visibility="gone"
+        android:paddingTop="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <TextView android:id="@+id/txt_grp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Choose which groups you belongs to"
+                android:gravity="left"
+                android:textSize="14dip"/>
+
+            <CheckBox
+                android:id="@+id/chckTeacher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Teachers" />
+
+            <CheckBox
+                android:id="@+id/chckStaff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Support Staff" />
+
+            <CheckBox
+                android:id="@+id/chckAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Building and District Admin" />
+
+            <CheckBox
+                android:id="@+id/chckParent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Parent" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_next2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="24dp"
+                android:padding="12dp"
+                android:text="Proceed" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
 
 
 </RelativeLayout>
