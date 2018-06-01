@@ -65,13 +65,13 @@
         android:textSize="@dimen/genre" />
 
     <!-- Release Year -->
-    <TextView
-        android:id="@+id/releaseYear"
+ <!--   <TextView
+        android:id="@+id/createdDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:textColor="@color/year"
-        android:textSize="@dimen/year" />
+        android:textSize="@dimen/year" />-->
 
 </RelativeLayout>

@@ -33,14 +33,26 @@
                     android:gravity="center"
                     android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/qName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text=""
+                    android:inputType="textMultiLine"
                     android:gravity="center"
                     android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+-->
+                <TextView
+                    android:id="@+id/qName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:text=""
+                    android:inputType="textMultiLine" />
+
 
                 <RadioButton
                     android:id="@+id/sDisagree"

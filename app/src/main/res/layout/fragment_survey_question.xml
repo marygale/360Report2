@@ -10,6 +10,7 @@
         android:id="@+id/listQuestion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:divider="#b5b5b5"
         android:dividerHeight="1dp"/>
 

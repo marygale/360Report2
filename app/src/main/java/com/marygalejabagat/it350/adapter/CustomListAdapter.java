@@ -57,10 +57,10 @@ public class CustomListAdapter extends BaseAdapter {
         if (imageLoader == null)
             imageLoader = AppController.getInstance().getImageLoader();
 
-        TextView title = (TextView) convertView.findViewById(R.id.title);
-        TextView rating = (TextView) convertView.findViewById(R.id.rating);
-        TextView genre = (TextView) convertView.findViewById(R.id.genre);
-        /*  TextView year = (TextView) convertView.findViewById(R.id.releaseYear);*/
+        TextView title = convertView.findViewById(R.id.title);
+        TextView rating = convertView.findViewById(R.id.rating);
+        TextView genre = convertView.findViewById(R.id.genre);
+        /*  TextView year = convertView.findViewById(R.id.releaseYear);*/
 
         // getting user data for the row
         User m = userItems.get(position);
@@ -70,6 +70,7 @@ public class CustomListAdapter extends BaseAdapter {
 
         // name
         title.setText(m.getFirstName() + m.getLastName());
+
 
         // rating
         rating.setText(m.getEmail());

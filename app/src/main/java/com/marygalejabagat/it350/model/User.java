@@ -6,7 +6,6 @@ public class User {
     private String roleName;
 
     public User(){}
-
     public User(int userID, int roleID, String fname, String lname, String email, String roleName){
         this.userID = userID;
         this.roleID = roleID;

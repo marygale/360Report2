@@ -65,6 +65,7 @@ public class SurveyQuestionFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_survey_question, container, false);
         args = getArguments();
+        questionList = new ArrayList<>();
         listView = view.findViewById(R.id.listQuestion);
         adapter = new SurveyQuestionAdapter(view.getContext(), R.layout.question_choice_list, questionList);
         lf = getLayoutInflater();
@@ -72,7 +73,6 @@ public class SurveyQuestionFragment extends Fragment {
         listView.addFooterView(footer);
         listView.setAdapter(adapter);
         loadQuestions();
-
         Log.e("SURVEYQUESTONFRAG", args.toString());
         return view;
     }

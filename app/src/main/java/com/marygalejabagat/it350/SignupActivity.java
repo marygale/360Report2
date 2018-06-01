@@ -1,5 +1,6 @@
 package com.marygalejabagat.it350;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 /*import android.app.ProgressDialog;*/
 import android.os.Bundle;
@@ -26,12 +27,13 @@ import butterknife.ButterKnife;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
+    public static ProgressDialog pd;
 
     @BindView(R.id.input_name) EditText _nameText;
     @BindView(R.id.last_name) EditText _lnameText;
     @BindView(R.id.input_address) EditText _addressText;
     @BindView(R.id.input_email) EditText _emailText;
-    @BindView(R.id.input_mobile) EditText _mobileText;
+    /*@BindView(R.id.input_mobile) EditText _mobileText;*/
     @BindView(R.id.input_password) EditText _passwordText;
     @BindView(R.id.input_reEnterPassword) EditText _reEnterPasswordText;
     @BindView(R.id.btn_signup) Button _signupButton;
@@ -75,31 +77,6 @@ public class SignupActivity extends AppCompatActivity {
         }
 
 
-       /* final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
-        progressDialog.show();
-
-        String name = _nameText.getText().toString();
-        String address = _addressText.getText().toString();
-        String email = _emailText.getText().toString();
-        String mobile = _mobileText.getText().toString();
-        String password = _passwordText.getText().toString();
-        String reEnterPassword = _reEnterPasswordText.getText().toString();*/
-
-        // TODO: Implement your own signup logic here.
-
-        /*new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);*/
     }
 
 
@@ -122,7 +99,7 @@ public class SignupActivity extends AppCompatActivity {
         String lname = _lnameText.getText().toString();
         String address = _addressText.getText().toString();
         String email = _emailText.getText().toString();
-        String mobile = _mobileText.getText().toString();
+        /*String mobile = _mobileText.getText().toString();*/
         String password = _passwordText.getText().toString();
         String reEnterPassword = _reEnterPasswordText.getText().toString();
 
@@ -155,12 +132,12 @@ public class SignupActivity extends AppCompatActivity {
             _emailText.setError(null);
         }
 
-        if (mobile.isEmpty() || mobile.length()!=11) {
+        /*if (mobile.isEmpty() || mobile.length()!=11) {
             _mobileText.setError("Enter Valid Mobile Number");
             valid = false;
         } else {
             _mobileText.setError(null);
-        }
+        }*/
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
             _passwordText.setError("between 4 and 10 alphanumeric characters");
@@ -182,17 +159,24 @@ public class SignupActivity extends AppCompatActivity {
     public void onPostRegister(){
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
         String url = "https://mgsurvey.herokuapp.com/api/postRegister";
-
+        showProgressBar("Processing...");
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.e("REGISTER", response.toString());
                 //This code is executed if the server responds, whether or not the response contains data.
                 //The String 'response' contains the server's response.
+                pd.dismiss();
+                onSignupSuccess();
+                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
             @Override
             public void onErrorResponse(VolleyError error) {
                 //This code is executed if there is an error.
+                pd.dismiss();
             }
         }) {
             protected Map<String, String> getParams() {
@@ -202,12 +186,22 @@ public class SignupActivity extends AppCompatActivity {
                 MyData.put("address", _addressText.getText().toString());
                 MyData.put("email_address", _emailText.getText().toString());
                 MyData.put("password", _passwordText.getText().toString());
-                MyData.put("role_id", "2");
 
                 return MyData;
             }
         };
         MyRequestQueue.add(MyStringRequest);
+    }
+
+    public void showProgressBar(String message){
+        pd = new ProgressDialog(this);
+        pd.setIndeterminate(false);
+        pd.setMessage(message);
+        pd.setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL);
+        pd.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
+        pd.setCancelable(true);
+        pd.setMax(100);
+        pd.show();
     }
 
 }
